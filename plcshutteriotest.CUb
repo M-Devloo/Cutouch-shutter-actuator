@@ -20,6 +20,9 @@ Dim statusofshutterupword As String
 Dim statusofshuttersdownword As String
 Dim statusofshutterstotal As String
 
+Dim prequal As String
+prequal = "SHUTTER"
+
 Dim achterkamer As String
 achterkamer = "A"
 
@@ -118,7 +121,7 @@ End Sub
 
 Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
 ' Put it on the serial port.
-Putstr 1, shutter, down , "-", up, "-", total, Chr(13), Chr(10)
+Putstr 1, prequal, "-", shutter, down , "-", up, "-", total, Chr(13), Chr(10)
 End Sub
 
 '**************** STATUS CALCULATION! ****************
