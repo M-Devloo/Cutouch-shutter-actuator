@@ -25,6 +25,7 @@ Dim upStatusForTouch As Byte
 Dim downStatusForTouch As Byte
 Dim menuselected As Integer
 Dim menuselectedprevious As Integer	
+Dim touchInput As Byte
 
 ' Save the serial output as string for now.
 Dim statusofshutterupword As String
@@ -63,10 +64,10 @@ Dim garage As String
 garage = "67"
 
 Dim badkamerGroot As String
-badkamerGroot = "690" ' This one is mapped to 640 due 690 was not working for some reason? (For the PLC touch only)
+badkamerGroot = "640" ' This one is mapped to 640 due 690 was not working for some reason? (For the PLC touch only)
 
 Dim badkamerKlein As String
-badkamerKlein = "691" ' This one is mapped to 641 due 691 was not working for some reason (For the PLC touch only)
+badkamerKlein = "641" ' This one is mapped to 641 due 691 was not working for some reason (For the PLC touch only)
 
 Dim bovenKamerWork As String
 bovenKamerWork = "75"
@@ -125,6 +126,9 @@ Delay 200
 '--------------------------------------
 ' Send out the status of the PLC on initial boot.
 InitializeSerialCommunication
+
+' Initialize some values
+touchInput = 0
 
 ' Attach the values to the correct dataword.
 _D(200) = waitForEMK
@@ -232,14 +236,18 @@ TouchScreen:
 	Set OnPad Off
 	TX1 = Getpad(2)    	''First 2 bytes is the x coordinate
 	TY1 = Getpad(2)    	'Second 2 bytes is y coordinate
+	
  	If LightOff=1 Then	'Check if light if OFF
 		SavedTime=Clock	'Reset Time values.
 		LightOff=0			'Set LightOff variable to 0
 		Light 1				'If light is OFF, then turn it ON
+		touchInput = 0
 	Else						'If light is ON, then process 											
 		SavedTime=Clock	'Save current time
+		touchInput = 1
 	End If
 	
+	If touchInput = 1 Then	
   ' **** All shutters down button *****
     If Menucheck(97, TX1, TY1) = 1 Then
 	    shortbeep 
@@ -258,7 +266,8 @@ TouchScreen:
     Else 
      CheckTouchScreen 	
     End If 	
-Set OnPad On
+	End If
+	Set OnPad On
 Return
 '------------------ End of the program. -------------------------
 End
