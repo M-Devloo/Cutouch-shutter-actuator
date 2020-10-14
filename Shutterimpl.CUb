@@ -81,8 +81,8 @@ bovenSlaapkamer = "79"
 #define waitForEMK 30
 
 ' This is the time definitions on how long it takes for a shutter to get UP or to get DOWN. (Unit: 1/10 second)
-#define rolluikOmhoogAchterkamer 100 
-#define rolluikOmlaagAchterkamer 100
+#define rolluikOmhoogAchterkamer 159 
+#define rolluikOmlaagAchterkamer 156
 
 #define rolluikOmhoogSlaapkamer 182
 #define rolluikOmlaagSlaapkamer 172
@@ -102,11 +102,11 @@ bovenSlaapkamer = "79"
 #define rolluikOmhoogGarage 100
 #define rolluikOmlaagGarage 100
 
-#define rolluikOmhoogBadkamerGroot 100
-#define rolluikOmlaagBadkamerGroot 100
+#define rolluikOmhoogBadkamerGroot 170
+#define rolluikOmlaagBadkamerGroot 156
 
-#define rolluikOmhoogBadkamerKlein 100
-#define rolluikOmlaagBadkamerKlein 100
+#define rolluikOmhoogBadkamerKlein 130
+#define rolluikOmlaagBadkamerKlein 127
 
 #define rolluikOmhoogBovenKamerWork 100
 #define rolluikOmlaagBovenKamerWork 100
