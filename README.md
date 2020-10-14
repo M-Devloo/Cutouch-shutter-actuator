@@ -31,7 +31,20 @@ Even driving 11 at the same time.
 
 The full system was powered through a 12V - 7.5A  meanwell power supply. This includes the PLC, push buttons & all relays.
 
-_{insert_hw_schematic here}
+### Input schematic
+
+The input schematic requires the switches to be all put on GND. The other side of the push button needs to be attached to the PLC.  
+Although don't forget to connect the +12V to the COM (black wire). You need to do this for every single COM.  
+
+![Input schematic](images/input_schematic.png)
+
+### Output schematic
+
+The output schematic requires the A1 (From the relay) to be connected to +12V DC. The other side needs to be connected to the output which will sink it to the GND.  
+For a real life example, you can check the pictures below.  
+
+![Output schematic](images/output_schematic.png)
+
 
 ### Input
 
