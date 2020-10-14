@@ -57,9 +57,13 @@ Dim wearleveloffset As Integer
 wearleveloffset = 0
 
 ' IF THEY ARE FF -> NOT OK MOVE TO THE NEXT ONE
-
 Set I2c 9,8
 
+' Message to the HES
+Dim message As String
+message = "Desynchronized"
+
+' Room definitions
 Dim prequal As String
 prequal = "SHUTTER"
 
@@ -139,11 +143,11 @@ Drawscreen
 On Pad Gosub TouchScreen
 
 ' Check EEPROM OFFSET
-CheckEEPROMOffSet
+'CheckEEPROMOffSet
 
 ' Read the EEPROM values to correctly initialize.
-ReadI2C startAddressUpRT
-ReadI2C startAddressUpRT +1
+'ReadI2C startAddressUpRT
+'ReadI2C startAddressUpRT +1
 
 Do
 Loop
@@ -238,7 +242,8 @@ ERRORPROC:
 Debug "Error i2c !"
 Dim erroreeprom As String
 erroreeprom = "I2C"
-SendOutSerial erroreeprom, 0, 0, 0
+message = "EepromError"
+SendMessage message
 Return
 
 '------------------ End of the program. -------------------------
@@ -251,6 +256,7 @@ Sub SerialCommunication()
  Opencom 1,19200,3,80,80
  Set Rs232 1, 19200, 3
  Putstr 1,"SHUTTER PLC ONLINE", Chr(13), Chr(10)
+ SendMessage message
  On Recv1 Gosub SERIALINTERRUPT ' Data Receive Interrupt routine
 End Sub
 
@@ -289,6 +295,8 @@ End Sub
 
 '**************** All SHUTTERS DOWN! ****************
 Sub AllDown()
+message = "UPSynchronizing"
+SendMessage message
 For iocounter = laagsteInput To hoogsteInput
   	If ((iocounter / 2) * 2 <> iocounter) Then
 		If _M(iocounter) <> 1 Then
@@ -301,6 +309,8 @@ End Sub
 
 '**************** All SHUTTERS UP! ****************
 Sub AllUp()
+message = "DownSynchronizing"
+SendMessage message
 For iocounter = laagsteInput To hoogsteInput
   	If ((iocounter / 2) * 2 = iocounter) Then
 		If _M(iocounter) <> 1 Then
@@ -372,6 +382,12 @@ Debug "Checking touchscreen"
 		ReverseMenu
 	Endif 
 End Sub
+
+''**************** Send mesage trough serial to show the end user?! '****************
+Sub SendMessage(messageSerial As String)
+	SendOutSerial messageSerial, 0, 0, 0
+End Sub
+
 
 ''**************** OFFSET TO CHECK THE WEARLEVEL OF THE EEPROM (Min 1M read cycles...)?! '****************
 Sub CheckEEPROMOffSet() 
