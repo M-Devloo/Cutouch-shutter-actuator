@@ -5,7 +5,7 @@ This system was running about more than one year as my primary source to control
 
 ## Some highlights
 * Each shutter up & down timings can be programmed.
-* There is a "dead" zone between going UP & DOWN to avoid blowing out your relay with EMK. (500 ms). For EACH shutter!
+* There is a "dead" zone between going UP & DOWN to avoid blowing out your relay with EMK. (500 ms). This for each shutter.
 * Event driven with ladder interrupts & serial interrupts.
 * Touch screen support to open or close each individual shutter or open / close ALL shutters.
 * RS232 support to open or close each individual shutter or open / close ALL shutters.
@@ -17,7 +17,7 @@ This code mimics a full blown Shutter Actuator like you would buy for a home aut
 
 # Hardware
 
-The hardware that is used for this shutter actuator is a `CT1720` from comfiletech. A `CT1721` also works.
+The hardware that is used for this shutter actuator is a `CT1720` from comfiletech. A `CT1721` also works.  
 Comfiletech has a complete datasheet that contains the information for this PLC. This can be found starting at Chapter 12: Cutouch  
 
 * [PLC hardware](http://comfiletech.com/embedded-controller/controller-with-touch/cutouch/ct1721c-mono-lcd-touch-cubloc-i-o/)
@@ -74,8 +74,8 @@ The editor to upload & edit the basic & ladder code is Cubloc Studio which can b
 The code exists out of two different programming languages: `Basic` & `Ladder`.  
 The most critical code is located in the Ladder diagram which is basically controlling the inputs, the output relays as well the EMK logic for each shutter.
 
-The software works together meaning ladder interrupts which are from the ladder diagram to the basic code. (Through the DoLadderInt INTERRUPT).
-There is also basic to ladder interrupts through the datawords & merkers. (Most of the starting with `_DXX`)
+The software works together meaning ladder interrupts which are from the ladder diagram to the basic code. (Through the `DoLadderInt` interrupt).
+There is also basic to ladder interrupts through the datawords & merkers. (Most of the starting with `_D(XX)`)
 
 ## Ladder software
 
@@ -84,14 +84,14 @@ There is also basic to ladder interrupts through the datawords & merkers. (Most 
 
 ### Ladder input logic.
 
-The ladder input logic is sometimes hard to read. Especially the status calculation which uses WMOV, WINC & WADD on different data objects. The funny thing is, it is just to calculate a shutter percentage!
-This section will explain on what does what.
+The ladder input logic is sometimes hard to read. Especially the status calculation which uses WMOV, WINC & WADD on different data objects.   
+The funny thing is, it is just to calculate a shutter percentage! This section will explain on what does what.
 
 You have basically three sections in the ladder screen.
 
 * Push button input logic
 * Relay output logic
-* Shutter status calculation (This is done in ladder because why not. In the basic code it was also possible)
+* Shutter status calculation (mixture of basic & ladder code)
 
 
 #### Push button input logic.
@@ -103,7 +103,7 @@ For each room the same ladder code is used. This means for Ladder, duplication!
 Every row contains the logic for one specific button. The one starting with `P56` is the one for the UP. The one starting with `P57` is the one for down.  
 Lets start with the first row. 
 
-* P56 = Push button for Shutter `UP` & P57 = Push button for Shutter `Down`. This is explained in section: [Output](#output) & [Input](#input)
+* P56 = Push button for Shutter `UP` & P57 = Push button for Shutter `Down`. This is explained in section: [Output](#output) & [Input](#input)  
 ** Due they are put serial, it is never possible to push `UP` & `DOWN` at the same time. Basically if the shutter goes up & you press down. The shutter will stop & the EMK deadzone will kick in which disables the buttons for 500 ms.
 
 
@@ -112,13 +112,12 @@ Lets start with the first row.
 * T1 : This is the Timer 1 which represents the status of the `DOWN` part of the shutter.  
 ** T1 is more of a guard check to disconnect the relay if the opposite relay is turned anyway. (To avoid damage to the shutter motor)    
 * T2 : This is the Timer 2 which represents the EMK. If the relay is turned from "ON" to "OFF", this gets activated. Meaning it is not possible for the input to be sent to T0.  
-** T2 actives when the relay goes "OFF"
+** T2 activates when the relay goes "OFF"
 
-* M56 is the simulated push button through RS232 AND for the touchscreen. This acts as a physical button.
+* M56 is the simulated push button through RS232 & for the touchscreen. This acts as a physical button.
 
-> This logic is also duplicated for the "DOWN" but reversed as the UP button. For each room, the timers ID's gets increased by `3`. All the info can be found under: [shutter-timers.info](shutter-timers.info) on what they mean.
-
-This logic has been fully tested for over one year, with simultaneous up & down presses etc, ... So its pretty robust. 
+> This logic is also duplicated for the "DOWN" but reversed according the UP button. For each room, the timers ID's gets increased by `3`.   
+> All the info can be found under: [shutter-timers.info](shutter-timers.info) on what they mean.
 
 #### Output logic
 
@@ -129,19 +128,23 @@ For each room the same ladder code is used for the relays as well. So again dupl
 Once again, every row is used for one typical relay. This is for the same room as we mentioned on the Push button input logic part.  
 Lets start with the first row.
 
-* T0 : This is the timer that is set on the inputs, when this actives `P24` will be attracted & the shutter relay for `UP` will activate.  
-* P57 : In case the push button is pressed to go down, `P24` will turn off. This is the same for the duplicated `M57` merker.  
+* T0 : This is the timer that is set on the inputs, when this activates, `P24` will be attracted & the shutter relay for `UP` will activate.
 
-* TAOFF T2, D200. In the D200 variable, the EMK current status is reset on negative flank (OFF to ON).
-* RSTOUT T0 -> When the relay turns off, the timer status gets reset of T0 as well for M56 & M57. 
-* M56 & M57, this resets the merker for the RS232 & the touchscreen interface. (On the basic code)
+* P57 : In case the push button is pressed to go down, `P24` will turn off. This is the same for the `M57` merker which is controlled through the touch screen / RS232.
 
-This output code is straight forward. If input is actived, enable relay. When the relay gets turned off, it resets some parameters.
+* TAOFF T2, D200 : In the D200 variable (D stands for dataword), the EMK current status is reset on negative flank (OFF to ON).
+
+* RSTOUT T0 : When the relay turns off, the timer status gets reset of T0 as well for M56 & M57.
+ 
+* M56 & M57 : this resets the merker for the RS232 & the touchscreen interface. (On the basic code)
+
+This output code is straight forward. If the input is actived, enable relay.   
+When the relay gets turned off, it resets some parameters.
 
 #### Status calculation logic.
 
-Once again for each room, the same ladder code is used for status calculation. So for each room, this is duplicated although with their own merkers, data variables & timers.
-Although the ladder code is used for grabbing the current status. The percentage calculation is done in the ladder interrupt on the Calculation Sub.
+Once again for each room, the same ladder code is used for status calculation. So for each room, this is duplicated although with their own merkers, data variables & timers.  
+Although the ladder code is used for grabbing the current status. The percentage calculation is done in the ladder interrupt on the Calculation Sub which is located in the basic code.
 
 ![Bedroom 1](images/ladder_status.PNG)
 
@@ -157,7 +160,7 @@ D(3) = Status bedroom 1 up percantege (%) previous
 D(4) = Counter increase shutter bedroom 1 down
 D(6) = Status bedroom 1 down (%)
 D(7) = Status bedroom 1 down (%) previous
-D(8) = End result Status shutter bedroom 1
+D(8) = End result status shutter bedroom 1
 ```
 
 So this ladder logic keeps the previous status, current status & the end result.
@@ -166,31 +169,32 @@ So this ladder logic keeps the previous status, current status & the end result.
 
 * WMOV 0, D0 : This is a moving part that puts the value 0 into the data word D0 when the input goes from ON to OFF (negative flank)
 
-* WINC D0, This increases a counter for shutter `UP` calculation.
+* WINC D0 : This increases a counter for shutter `UP` calculation.
 
-* WADDD D8, D2, D8, this adds up dataword D2 & D8 together which is saved in to D8 (percentage) when the shutter goes OFF.
+* WADDD D8, D2, D8 : This adds up dataword D2 & D8 together which is saved in the dataword `D8` (percentage) when the shutter goes OFF.
 
 * WMOV 0, D2 : This resets the current percentage status.
 
 * \>, D8, 100 : This is used to avoid overflowing the percentage (Max 100% is possible)
 
-We also need the second row  to complete our calculation, this is the `DOWN` section.
-This is basically the same but for the DOWN status, although the it is possible to have a `underflow`, meaning if the dataword (which can hold 0xFFFF value), it needs to be reset back to 0%
+We also need the second row  to complete our calculation, this is the `DOWN` section.  
+This is basically the same but for the DOWN status, although it is possible to have a `underflow`, meaning if the dataword (which can hold 0xFFFF value) underflows, it needs to be reset back to 0%.
 
-> Just to mention, this is part of the status calculation as some is also done in the basic code.
+> The rest of the status calculation can be found in the basic code.
 
 
 #### Summary for ladder
 
 The ladder code contains the most important code for the shutter actuator as ladder never fails.
-> The ladder diagram gets scanned 6000 times every second for changes. So its fast also !
+> Note: The ladder diagram gets scanned 6000 times every second for changes.
 
-In the application, we are also using basic interrupts. This allows the ladder code to execute basic code through INTERRUPTS which is done through `DoLadderInt` interrupt located in the basic code.  
-This is done through `F40` which can be found at the start of this ladder diagram. It gets activated when a dataword is different from 0. The interrupt will perform the rest of the calculation which is required to find the correct status of the shutters as mentioned in the status calculation section.  
+In the application, we are also using basic interrupts. This allows the ladder code to execute basic code through INTERRUPTS which is done through the `DoLadderInt` interrupt located in the basic code.  
+This is done by `F40` which can be found at the start of this ladder diagram. It gets activated when a dataword is different from 0.  
+The interrupt will perform the rest of the calculation which is required to find the correct status of the shutters as mentioned in the status calculation section.  
 
 ---
 
-There are a few files attached that contains information on which does what. Although some of it in still in dutch, it contains every single variable, constant, IO & timer that is used in this program.  
+There are a few files attached that contains information on which does what. Although some of it in still in dutch, it contains every single variable, constant, IO & timer that is used in this software.  
 
 * [Shutter timers](shutter-timers.info)
 * [Shutter constants](shutters-const.info)
@@ -211,13 +215,13 @@ This is required for the status calculation. (Unit: 1/10 second)
 #define rolluikOmlaagSlaapkamer 172
 ```
 
-After that it waits 200 ms before booting & initializing the serial communication in the Sub: `InitializeSerialCommunication`.
-This sets the Serial port to use BAUDRATE: `115200`, NO parity, One stop bit with a receive buffer of 80 bytes & send buffer of 1Kb.
-It also mentions if a serial interrupt is received, it should go to the Sub SERIALINTERRUPT.
+After that it waits 200 ms before booting & initializing the serial communication in the Sub: `InitializeSerialCommunication`.  
+This sets the Serial port to use BAUDRATE: `115200`, no parity, 1 stop bit with a receive buffer of 80 bytes & send buffer of 1kB.  
+It also mentions if a serial interrupt is received, it should go to the Sub SERIALINTERRUPT.  
 
-It enables the PLC outputs through `Set Outonly On` ,enables the Ladder code through `Set Ladder On`. & enables the touch screen
-The touch screen is fully drawn in... Basic! This is done by importing the ShutterScreen.inc which contains a sub called Drawscreen. This fully draws the screen with interrupt attachments.  
-The interrupt is initialized through the sub:  `TouchScreen`
+It enables the PLC outputs through `Set Outonly On`, enables the Ladder code through `Set Ladder On` & enables the touch screen.    
+The touch screen is fully drawn in... Basic! This is done by importing the `ShutterScreen.inc` which contains a sub called Drawscreen. This fully draws the screen with interrupt attachments.  
+The interrupt is initialized through the sub: `TouchScreen`.    
 
 ## Interrupts
 The software is fully event handled driven. Meaning everything is done through interrupts either in basic or in ladder.
@@ -227,27 +231,28 @@ The software is fully event handled driven. Meaning everything is done through i
 * TouchScreen
 
 ### SERIALINTERRUPT
-The push buttons that are physically wired are interrupted in the ladder software, but the serial incoming data is handled here.
-Its a simple statemachine that is using the character `<` as a stop char. My backend always sent out the following example string when i want to open a certain shutter: `<56<`.
+The push buttons that are physically wired are interrupted in the ladder software, but the serial incoming data is handled here.  
+Its a simple statemachine that is using the character `<` as a stop char. These example strings can be used to control certain shutters.  
 
 Some examples:
 
-`<56<` : This open (up) the shutter in Bedroom 1.  
-`<57<` : This closes (down) the shutter in Bedroom 1.  
-`<1000<` : This triggers for every single shutter the "UP" merkers. This is executed in the Sub: AllUp.  
-`<2000<` : This triggers for every single shutter the "DOWN" merkers. This is executed in the Sub: AllDown.  
+* `<56<` : This open (up) the shutter in Bedroom 1.  
+* `<57<` : This closes (down) the shutter in Bedroom 1.  
+* `<1000<` : This triggers for every single shutter the "UP" merker. This is executed in the Sub: `AllUp`.  
+* `<2000<` : This triggers for every single shutter the "DOWN" merker. This is executed in the Sub: `AllDown`.  
 
 ### EVERY100ms
 This interrupt is created for the touch screen. After 20 seconds, the display turns off. 
 
 ### TouchScreen
 When the touchscreen is pressed, it goes into this interrupt.  
-It checks which button was pressed & depending which location on the screen, it will enable a certain merker and / or manipulate the menu's on the touch screen.
+It checks which button was pressed & depending on the location that was pressed, it will enable a certain merker and/or manipulate the menu's on the touch screen.
 
 ### Calculation
 
 The calculation part is executed on the ladder interrupt (DoLadderInt). For every single percentage, it recalculates the status of the shutter.  
-This also means if ALL shutters are going down or up, your serial port gets spammed with status reports. This is done with the Sub: `SendOutSerial`
+This also means if ALL shutters are going down or up, your serial port gets spammed with status reports of each individual shutter.
+This is done with the Sub: `SendOutSerial`.
 
 ---
 
