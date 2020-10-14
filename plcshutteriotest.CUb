@@ -1,0 +1,66 @@
+' *************************** PLC Cutouch CT1720 programma ***************************************
+' Written by Michael Devloo
+' Written on 28/03/2017
+' Version 1.0.0 - Initial design for the MDE Shutter system.
+' ************************************************************************************************
+'
+
+
+Const Device = CT1720
+Ramclear
+Set Debug On
+
+' *********** Main Initialisation ********************
+Dim StringByte As String
+Dim stringByteTmp As String
+
+'-------------------------------------
+#Include "PindefShutters.INC"
+'--------------------------------------
+
+  
+SerialCommunication
+
+Set Outonly On
+Set Ladder On  
+
+Do
+Loop
+
+
+
+
+
+SERIALINTERRUPT:
+' *** Serial interrupt ***!
+Debug "Response: "
+	Do While Blen(1,0) > 0   ' While buffer is not empty then
+		' Modify here what needs to be done!!
+		stringByteTmp = Getstr(1,1000)
+		If (stringByteTmp <> "<") Then
+		StringByte = StringByte + stringByteTmp
+		Else				
+		
+		' to do
+		
+		StringByte = ""
+		End If
+		Debug StringByte, " "
+   Loop
+   Debug Cr 'New Line
+   Return
+End
+
+
+
+
+'**************** SERIAL COMMUNICATION! ****************
+
+Sub SerialCommunication()
+Opencom 1,19200,3,80,80
+Set Rs232 1, 19200, 3
+Putstr 1,"SHUTTER PLC ONLINE", Chr(13), Chr(10)
+On Recv1 Gosub SERIALINTERRUPT ' Data Receive Interrupt routine
+End Sub
+
+
