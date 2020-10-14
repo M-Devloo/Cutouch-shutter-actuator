@@ -18,6 +18,7 @@ Dim iocounter As Byte
 ' Save the serial output as string for now.
 Dim statusofshutterupword As String
 Dim statusofshuttersdownword As String
+Dim statusofshutterstotal As String
 
 ' Input definition
 #define lowestInput 56
@@ -79,10 +80,11 @@ End Sub
 Sub SendOutSerial()
 ' Send out the current status through the serial port.
 ' Convert first to hex string.
-statusofshutterupword = Hex _D(10)
-statusofshuttersdownword = Hex _D(20)
+statusofshutterupword = Hex _D(2)
+statusofshuttersdownword = Hex _D(6)
+statusofshutterstotal = Hex _D(8)
 
 ' Put it on the serial port.
-Putstr 1, statusofshuttersdownword , "-", statusofshutterupword, Chr(13), Chr(10)
+Putstr 1, statusofshuttersdownword , "-", statusofshutterupword, "-", statusofshutterstotal Chr(13), Chr(10)
 End Sub
 
