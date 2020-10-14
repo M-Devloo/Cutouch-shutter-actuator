@@ -54,10 +54,8 @@ DoLadderInt:
  SendOutSerial
  
 ' Update the merkers.	
- Debug "Up D2 = ", Dec _D(2), "%", Cr 'Print datawoord 1 waarde
- Debug "Down D6 = ", Dec _D(6), "%", Cr 'Print datawoord 1 waarde
- Debug "Status D8 = ", Dec _D(8), "%", Cr 'Print datawoord 1 waarde
- 
+ Debug "Up ", Dec _D(2), "% - ", "Down ", Dec _D(6), "% - ", "Status ", Dec _D(8), "%", Cr
+
 Return
 
 '------- Serial Interrupt by Serial port -----------------------
@@ -86,6 +84,5 @@ statusofshuttersdownword = Hex _D(20)
 
 ' Put it on the serial port.
 Putstr 1, statusofshuttersdownword , "-", statusofshutterupword, Chr(13), Chr(10)
-Debug "SERIAL = ", statusofshuttersdownword , "-", statusofshutterupword, Cr
 End Sub
 
