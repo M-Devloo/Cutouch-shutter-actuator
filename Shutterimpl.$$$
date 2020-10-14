@@ -25,29 +25,29 @@ F00000035Dim message As String
 F00000036message = "Desynchronized"
 F00000038Dim prequal As String
 F00000039prequal = "SHUTTER"
-F00000043Dim achterkamer As String
-F00000044achterkamer = "56"
-F00000046Dim slaapkamer As String
-F00000047slaapkamer = "57"
-F00000049Dim keuken As String
-F00000050keuken = "60"
-F00000052Dim livingTuin As String
-F00000053livingTuin = "630"
-F00000055Dim livingTerras As String
-F00000056livingTerras = "631"
-F00000058Dim livingVoordeur As String
-F00000059livingVoordeur = "632"
-F00000061Dim garage As String
-F00000062garage = "67"
-F00000064Dim badkamerGroot As String
-F00000065badkamerGroot = "690"
-F00000067Dim badkamerKlein As String
-F00000068badkamerKlein = "691"
-F00000070Dim bovenKamerWork As String
-F00000071bovenKamerWork = "75"
-F00000073Dim bovenSlaapkamer As String
-F00000074bovenSlaapkamer = "79"
-F00000121Delay 200
+F00000044Dim achterkamer As String
+F00000045achterkamer = "56"
+F00000047Dim slaapkamer As String
+F00000048slaapkamer = "57"
+F00000050Dim keuken As String
+F00000051keuken = "60"
+F00000053Dim livingTuin As String
+F00000054livingTuin = "630"
+F00000056Dim livingTerras As String
+F00000057livingTerras = "631"
+F00000059Dim livingVoordeur As String
+F00000060livingVoordeur = "632"
+F00000062Dim garage As String
+F00000063garage = "67"
+F00000065Dim badkamerGroot As String
+F00000066badkamerGroot = "690"
+F00000068Dim badkamerKlein As String
+F00000069badkamerKlein = "691"
+F00000071Dim bovenKamerWork As String
+F00000072bovenKamerWork = "75"
+F00000074Dim bovenSlaapkamer As String
+F00000075bovenSlaapkamer = "79"
+F00000122Delay 200
 F01000003Usepin 56,In,OmhoogAchterkamer
 F01000004Usepin 57,In,OmlaagAchterkamer
 F01000005Usepin 58,In,OmhoogSlaapkamer
@@ -60,12 +60,12 @@ F01000011Usepin 64,In,OmhoogLivingTerras
 F01000012Usepin 65,In,OmlaagLivingTerras
 F01000013Usepin 66,In,OmhoogLivingVoordeur
 F01000014Usepin 67,In,OmlaagLivingVoordeur
-F01000015Usepin 68,In,OmhoogGarage
-F01000016Usepin 69,In,OmlaagGarage
-F01000017Usepin 70,In,OmhoogBadkamerGroot
-F01000018Usepin 71,In,OmlaagBadkamerGroot
-F01000019Usepin 72,In,OmhoogBadkamerKlein
-F01000020Usepin 73,In,OmlaagBadkamerKlein
+F01000015Usepin 68,In,OmhoogBadkamerGroot
+F01000016Usepin 69,In,OmlaagBadkamerGroot
+F01000017Usepin 70,In,OmhoogBadkamerKlein
+F01000018Usepin 71,In,OmlaagBadkamerKlein
+F01000019Usepin 72,In,OmhoogGarage
+F01000020Usepin 73,In,OmlaagGarage
 F01000021Usepin 74,In,OmhoogBovenkamerWork
 F01000022Usepin 75,In,OmlaagBovenkamerWork
 F01000023Usepin 76,In,OmhoogBovenSlaapkamer
@@ -82,134 +82,134 @@ F01000035Usepin 32,Out,RelaisOmhoogLivingTerras
 F01000036Usepin 33,Out,RelaisOmlaagLivingTerras
 F01000037Usepin 34,Out,RelaisOmhoogLivingVoordeur
 F01000038Usepin 35,Out,RelaisOmlaagLivingVoordeur
-F01000039Usepin 36,Out,RelaisOmhoogGarage
-F01000040Usepin 37,Out,RelaisOmlaagGarage
-F01000041Usepin 38,Out,RelaisOmhoogBadkamerGroot
-F01000042Usepin 39,Out,RelaisOmlaagBadkamerGroot
-F01000043Usepin 40,Out,RelaisOmhoogBadkamerKlein
-F01000044Usepin 41,Out,RelaisOmlaagBadkamerKlein
+F01000039Usepin 36,Out,RelaisOmhoogBadkamerGroot
+F01000040Usepin 37,Out,RelaisOmlaagBadkamerGroot
+F01000041Usepin 38,Out,RelaisOmhoogBadkamerKlein
+F01000042Usepin 39,Out,RelaisOmlaagBadkamerKlein
+F01000043Usepin 40,Out,RelaisOmhoogGarage
+F01000044Usepin 41,Out,RelaisOmlaagGarage
 F01000045Usepin 42,Out,RelaisOmhoogBovenkamerWork
 F01000046Usepin 43,Out,RelaisOmlaagBovenkamerWork
 F01000047Usepin 44,Out,RelaisOmhoogBovenSlaapkamer
 F01000048Usepin 45,Out,RelaisOmlaagBovenSlaapkamer
-F00000126InitializeSerialCommunication
-F00000129_D(200) = 30
-F00000130_D(201) = 100
-F00000131_D(202) = 100
-F00000132_D(203) = 182
-F00000133_D(204) = 172
-F00000134_D(205) = 141
-F00000135_D(206) = 139
-F00000136_D(207) = 100
-F00000137_D(208) = 100
-F00000138_D(209) = 202
-F00000139_D(210) = 181
-F00000140_D(211) = 100
-F00000141_D(212) = 100
-F00000142_D(213) = 100
-F00000143_D(214) = 100
-F00000144_D(215) = 100
-F00000145_D(216) = 100
-F00000146_D(217) = 100
-F00000147_D(218) = 100
-F00000148_D(219) = 100
-F00000149_D(220) = 100
-F00000150_D(221) = 100
-F00000151_D(222) = 100
-F00000153Set Outonly On
-F00000154Set Ladder On
-F00000156On Ladderint Gosub DoLadderInt
-F00000157On Timer(10) Gosub EVERY100ms
-F00000160Set Pad 0,4,20
-F00000162Drawscreen
-F00000163On Pad Gosub TouchScreen
-F00000165Do
-F00000166Loop
-F00000169DoLadderInt:
-F00000171Calculation achterkamer,	 0, 2, 3, 4, 6, 7, 8, 100, 100
-F00000172Calculation slaapkamer, 	 10, 12, 13, 14, 16, 17, 18, 182, 172
-F00000173Calculation keuken,         20, 22, 23, 24, 26, 27, 28, 141, 139
-F00000174Calculation livingTuin,     30, 32, 33, 34, 36, 37, 38, 100, 100
-F00000175Calculation livingTerras,   40, 42, 43, 44, 46, 47, 48, 202, 181
-F00000176Calculation livingVoordeur, 50, 52, 53, 54, 56, 57, 58, 100, 100
-F00000177Calculation garage,       	 60, 62, 63, 64, 66, 67, 68, 100, 100
-F00000178Calculation badkamerGroot,  70, 72, 73, 74, 76, 77, 78, 100, 100
-F00000179Calculation badkamerKlein,  80, 82, 83, 84, 86, 87, 88, 100, 100
-F00000180Calculation bovenKamerWork,  90, 92, 93, 94, 96, 97, 98, 100, 100
-F00000181Calculation bovenSlaapkamer, 100, 102, 103, 104, 106, 107, 108, 100, 100
-F00000183Return
-F00000186SERIALINTERRUPT:
-F00000188Debug "Response: "
-F00000189Do While Blen(1,0) > 0
-F00000191stringByteTmp = Getstr(1,1000)
-F00000192If (stringByteTmp <> "<") Then
-F00000193StringByte = StringByte + stringByteTmp
-F00000194Else
-F00000196If (Val(StringByte) = 1000) Then
-F00000197Debug "All Up"
-F00000198AllUp
-F00000199Elseif (Val(StringByte) = 2000) Then
-F00000200Debug "ALL Down"
-F00000201AllDown
-F00000202Else
-F00000203For iocounter = 56 To 77
-F00000204If Val(StringByte) = iocounter Then
-F00000205Debug "Valid value"
-F00000206_M(iocounter) = 1
-F00000207End If
-F00000208Next
+F00000127InitializeSerialCommunication
+F00000130_D(200) = 30
+F00000131_D(201) = 100
+F00000132_D(202) = 100
+F00000133_D(203) = 182
+F00000134_D(204) = 172
+F00000135_D(205) = 141
+F00000136_D(206) = 139
+F00000137_D(207) = 100
+F00000138_D(208) = 100
+F00000139_D(209) = 202
+F00000140_D(210) = 181
+F00000141_D(211) = 100
+F00000142_D(212) = 100
+F00000143_D(213) = 100
+F00000144_D(214) = 100
+F00000145_D(215) = 100
+F00000146_D(216) = 100
+F00000147_D(217) = 100
+F00000148_D(218) = 100
+F00000149_D(219) = 100
+F00000150_D(220) = 100
+F00000151_D(221) = 100
+F00000152_D(222) = 100
+F00000154Set Outonly On
+F00000155Set Ladder On
+F00000157On Ladderint Gosub DoLadderInt
+F00000158On Timer(10) Gosub EVERY100ms
+F00000161Set Pad 0,4,20
+F00000164Drawscreen
+F00000165On Pad Gosub TouchScreen
+F00000167Do
+F00000168Loop
+F00000171DoLadderInt:
+F00000173Calculation achterkamer,	 0, 2, 3, 4, 6, 7, 8, 100, 100
+F00000174Calculation slaapkamer, 	 10, 12, 13, 14, 16, 17, 18, 182, 172
+F00000175Calculation keuken,         20, 22, 23, 24, 26, 27, 28, 141, 139
+F00000176Calculation livingTuin,     30, 32, 33, 34, 36, 37, 38, 100, 100
+F00000177Calculation livingTerras,   40, 42, 43, 44, 46, 47, 48, 202, 181
+F00000178Calculation livingVoordeur, 50, 52, 53, 54, 56, 57, 58, 100, 100
+F00000179Calculation badkamerGroot,  60, 62, 63, 64, 66, 67, 68, 100, 100
+F00000180Calculation badkamerKlein,  70, 72, 73, 74, 76, 77, 78, 100, 100
+F00000181Calculation garage,       	 80, 82, 83, 84, 86, 87, 88, 100, 100
+F00000182Calculation bovenKamerWork,  90, 92, 93, 94, 96, 97, 98, 100, 100
+F00000183Calculation bovenSlaapkamer, 100, 102, 103, 104, 106, 107, 108, 100, 100
+F00000185Return
+F00000188SERIALINTERRUPT:
+F00000190Debug "Response: "
+F00000191Do While Blen(1,0) > 0
+F00000193stringByteTmp = Getstr(1,1000)
+F00000194If (stringByteTmp <> "<") Then
+F00000195StringByte = StringByte + stringByteTmp
+F00000196Else
+F00000198If (Val(StringByte) = 1000) Then
+F00000199Debug "All Up"
+F00000200AllUp
+F00000201Elseif (Val(StringByte) = 2000) Then
+F00000202Debug "ALL Down"
+F00000203AllDown
+F00000204Else
+F00000205For iocounter = 56 To 77
+F00000206If Val(StringByte) = iocounter Then
+F00000207Debug "Valid value"
+F00000208_M(iocounter) = 1
 F00000209End If
-F00000211StringByte = ""
-F00000212End If
-F00000213Debug StringByte, " "
-F00000214Loop
-F00000215Debug Cr
-F00000216Return
-F00000219EVERY100ms:
-F00000220Incr Clock
-F00000222If Clock-SavedTime>200 Then
-F00000223LightOff=1
-F00000224Light 0
-F00000225End If
-F00000226Return
-F00000229TouchScreen:
-F00000230Set OnPad Off
-F00000231TX1 = Getpad(2)
-F00000232TY1 = Getpad(2)
-F00000233If LightOff=1 Then
-F00000234SavedTime=Clock
-F00000235LightOff=0
-F00000236Light 1
-F00000237Else
-F00000238SavedTime=Clock
-F00000239End If
-F00000242If Menucheck(97, TX1, TY1) = 1 Then
-F00000243Pulsout 18,150
-F00000244AllUp
-F00000246Elseif Menucheck(98, TX1, TY1) = 1 Then
-F00000247Pulsout 18,150
-F00000248AllDown
-F00000249Elseif Menucheck(100, TX1, TY1) = 1 Then
-F00000250Pulsout 18,150
-F00000251_M(upStatusForTouch) = 1
-F00000253Elseif Menucheck(101, TX1, TY1) = 1 Then
-F00000254Pulsout 18,150
-F00000255_M(downStatusForTouch) = 1
-F00000256Else
-F00000257CheckTouchScreen
-F00000258End If
-F00000259Set OnPad On
-F00000260Return
-F00000262End
-F00000267Sub InitializeSerialCommunication()
-F00000268Opencom 1,115200,3,80,1024
-F00000269Set Rs232 1, 115200, 3
-F00000270Putstr 1,"SHUTTER PLC ONLINE", Chr(13), Chr(10)
-F00000271SendMessage message
-F00000272On Recv1 Gosub SERIALINTERRUPT
-F00000273End Sub
-F00000275Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
-F00000277Putstr 1, prequal, "*", shutter, "=", up , "-", down, "-", total, Chr(13), Chr(10)
+F00000210Next
+F00000211End If
+F00000213StringByte = ""
+F00000214End If
+F00000215Debug StringByte, " "
+F00000216Loop
+F00000217Debug Cr
+F00000218Return
+F00000221EVERY100ms:
+F00000222Incr Clock
+F00000224If Clock-SavedTime>200 Then
+F00000225LightOff=1
+F00000226Light 0
+F00000227End If
+F00000228Return
+F00000231TouchScreen:
+F00000232Set OnPad Off
+F00000233TX1 = Getpad(2)
+F00000234TY1 = Getpad(2)
+F00000235If LightOff=1 Then
+F00000236SavedTime=Clock
+F00000237LightOff=0
+F00000238Light 1
+F00000239Else
+F00000240SavedTime=Clock
+F00000241End If
+F00000244If Menucheck(97, TX1, TY1) = 1 Then
+F00000245Pulsout 18,150
+F00000246AllUp
+F00000248Elseif Menucheck(98, TX1, TY1) = 1 Then
+F00000249Pulsout 18,150
+F00000250AllDown
+F00000251Elseif Menucheck(100, TX1, TY1) = 1 Then
+F00000252Pulsout 18,150
+F00000253_M(upStatusForTouch) = 1
+F00000255Elseif Menucheck(101, TX1, TY1) = 1 Then
+F00000256Pulsout 18,150
+F00000257_M(downStatusForTouch) = 1
+F00000258Else
+F00000259CheckTouchScreen
+F00000260End If
+F00000261Set OnPad On
+F00000262Return
+F00000264End
+F00000269Sub InitializeSerialCommunication()
+F00000270Opencom 1,115200,3,80,1024
+F00000271Set Rs232 1, 115200, 3
+F00000272Putstr 1,"SHUTTER PLC ONLINE", Chr(13), Chr(10)
+F00000273SendMessage message
+F00000274On Recv1 Gosub SERIALINTERRUPT
+F00000275End Sub
+F00000277Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
+F00000279Putstr 1, prequal, "*", shutter, "=", up , "-", down, "-", total, Chr(13), Chr(10)
 F00000280End Sub
 F00000284Sub Calculation(room As String, counterIncrease As Byte, statusup As Byte, previousStatusUp As Byte, counterDown As Byte, statusdown As Byte, previousStatusDown As Byte, percentageStatus As Byte, shutterUpCalibration As Integer, shutterDownCalibration As Integer)
 F00000286If _D(previousStatusUp) > _D(statusup) Or _D(previousStatusDown) > _D(statusdown) Then
@@ -286,20 +286,20 @@ F00000366upStatusForTouch = 66
 F00000367downStatusForTouch = 67
 F00000368menuselected = Val(livingVoordeur)
 F00000369ReverseMenu
-F00000370Elseif Menucheck(Val(garage),TX1,TY1) = 1 Then
+F00000370Elseif Menucheck(640,TX1,TY1) = 1 Then
 F00000371upStatusForTouch = 68
 F00000372downStatusForTouch = 69
-F00000373menuselected = Val(garage)
+F00000373menuselected = 640
 F00000374ReverseMenu
-F00000375Elseif Menucheck(640,TX1,TY1) = 1 Then
+F00000375Elseif Menucheck(641,TX1,TY1) = 1 Then
 F00000376upStatusForTouch = 70
 F00000377downStatusForTouch = 71
-F00000378menuselected = 640
+F00000378menuselected = 641
 F00000379ReverseMenu
-F00000380Elseif Menucheck(641,TX1,TY1) = 1 Then
+F00000380Elseif Menucheck(Val(garage),TX1,TY1) = 1 Then
 F00000381upStatusForTouch = 72
 F00000382downStatusForTouch = 73
-F00000383menuselected = 641
+F00000383menuselected = Val(garage)
 F00000384ReverseMenu
 F00000385Elseif Menucheck(Val(bovenKamerWork),TX1,TY1) = 1 Then
 F00000386upStatusForTouch = 74
@@ -343,9 +343,9 @@ F02000015MENUTITLE 630,23,7,"LT"
 F02000016MENUSET 632,1,175,175,240,205
 F02000017MENUTITLE 632,25,7,"LV"
 F02000018MENUSET 640,1,175,120,240,170
-F02000019MENUTITLE 640,25,17,"BK"
+F02000019MENUTITLE 640,25,17,"BK-G"
 F02000020MENUSET 641,1,175,55,240,115
-F02000021MENUTITLE 641,22,22,"BKS"
+F02000021MENUTITLE 641,22,22,"BK-K"
 F02000022MENUSET 67,1,175,15,240,50
 F02000023MENUTITLE 67,22,9,"GAR"
 F02000024MENUSET 631,1,175,210,305,225
@@ -354,7 +354,7 @@ F02000026FONT 0,0
 F02000027GLOCATE 20,110
 F02000028GPRINT "   MDE Shutter"
 F02000029GLOCATE 20,126
-F02000030GPRINT "      V1.1.0"
+F02000030GPRINT "      V1.2.0"
 F02000031STYLE 0,0,0
 F02000032MENUSET 97,2,5,200,80,235
 F02000033MENUTITLE 97,16,9,"ALL UP"

@@ -22,17 +22,17 @@ T(15) = Rolluik omhoog livingvoordeur
 T(16) = Rolluik omlaag livingvoordeur
 T(17) = Wait for EMK (Rolluik livingvoordeur)
 
-T(18) = Rolluik omhoog garage
-T(19) = Rolluik omlaag garage
-T(20) = Wait for EMK (Rolluik garage)
+T(18) = Rolluik omhoog badkamergroot
+T(19) = Rolluik omlaag badkamergroot
+T(20) = Wait for EMK (Rolluik badkamergroot) 
 
-T(21) = Rolluik omhoog badkamergroot
-T(22) = Rolluik omlaag badkamergroot
-T(23) = Wait for EMK (Rolluik badkamergroot)
+T(21) = Rolluik omhoog badkamerklein
+T(22) = Rolluik omlaag badkamerklein
+T(23) = Wait for EMK (Rolluik badkamerklein)
 
-T(24) = Rolluik omhoog badkamerklein
-T(25) = Rolluik omlaag badkamerklein
-T(26) = Wait for EMK (Rolluik badkamerklein)
+T(24) = Rolluik omhoog garage
+T(25) = Rolluik omlaag garage
+T(26) = Wait for EMK (Rolluik garage)
 
 T(27) = Rolluik omhoog bovenKamerWork
 T(28) = Rolluik omlaag bovenKamerWork

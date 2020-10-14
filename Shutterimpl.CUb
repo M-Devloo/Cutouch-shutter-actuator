@@ -38,8 +38,9 @@ message = "Desynchronized"
 Dim prequal As String
 prequal = "SHUTTER"
 
-'This is the room definition. Lights inpu
-'If there are more than one shutter In the room., extra index
+'This is the room definition which are configured in the ShutterScreen.inc file.
+'If there are more than one shutter In the room., extra index is added.
+'This is only used for the visual effect on the PLC touch screen & Serial output.
 Dim achterkamer As String
 achterkamer = "56"
 
@@ -62,10 +63,10 @@ Dim garage As String
 garage = "67"
 
 Dim badkamerGroot As String
-badkamerGroot = "690" 
+badkamerGroot = "690" ' This one is mapped to 640 due 690 was not working for some reason? (For the PLC touch only)
 
 Dim badkamerKlein As String
-badkamerKlein = "691"
+badkamerKlein = "691" ' This one is mapped to 641 due 691 was not working for some reason (For the PLC touch only)
 
 Dim bovenKamerWork As String
 bovenKamerWork = "75"
@@ -95,8 +96,8 @@ bovenSlaapkamer = "79"
 #define rolluikOmhoogLivingTerras 202
 #define rolluikOmlaagLivingTerras 181
 
-#define rolluikOmhooglivingvoordeur 100
-#define rolluikOmlaaglivingvoordeur 100
+#define rolluikOmhoogLivingVoordeur 100
+#define rolluikOmlaagLivingVoordeur 100
 
 #define rolluikOmhoogGarage 100
 #define rolluikOmlaagGarage 100
@@ -137,14 +138,14 @@ _D(207) = rolluikOmhoogLivingTuin
 _D(208) = rolluikOmlaagLivingTuin
 _D(209) = rolluikOmhoogLivingTerras
 _D(210) = rolluikOmlaagLivingTerras
-_D(211) = rolluikOmhooglivingvoordeur
-_D(212) = rolluikOmlaaglivingvoordeur
-_D(213) = rolluikOmhoogGarage
-_D(214) = rolluikOmlaagGarage
-_D(215) = rolluikOmhoogBadkamerGroot
-_D(216) = rolluikOmlaagBadkamerGroot
-_D(217) = rolluikOmhoogBadkamerKlein
-_D(218) = rolluikOmlaagBadkamerKlein
+_D(211) = rolluikOmhoogLivingVoordeur
+_D(212) = rolluikOmlaagLivingVoordeur
+_D(213) = rolluikOmhoogBadkamerGroot
+_D(214) = rolluikOmlaagBadkamerGroot
+_D(215) = rolluikOmhoogBadkamerKlein
+_D(216) = rolluikOmlaagBadkamerKlein
+_D(217) = rolluikOmhoogGarage
+_D(218) = rolluikOmlaagGarage
 _D(219) = rolluikOmhoogBovenKamerWork
 _D(220) = rolluikOmlaagBovenKamerWork
 _D(221) = rolluikOmhoogBovenSlaapkamer
@@ -159,7 +160,8 @@ On Timer(10) Gosub EVERY100ms		' Set Timer interrupt to every 100ms
 ' Touch screen intialization
 Set Pad 0,4,20     ''Mode 0, Packet size 4 bytes, Buffer 20 bytes
 
-Drawscreen ' Draw the screen which is located in ShutterScreen.inc file.
+' Draw the screen which is located in ShutterScreen.inc file.
+Drawscreen 
 On Pad Gosub TouchScreen
 
 Do
@@ -173,10 +175,10 @@ Calculation slaapkamer, 	 10, 12, 13, 14, 16, 17, 18, rolluikOmhoogSlaapkamer, r
 Calculation keuken,         20, 22, 23, 24, 26, 27, 28, rolluikOmhoogKeuken, rolluikOmlaagKeuken
 Calculation livingTuin,     30, 32, 33, 34, 36, 37, 38, rolluikOmhoogLivingTuin, rolluikOmlaagLivingTuin
 Calculation livingTerras,   40, 42, 43, 44, 46, 47, 48, rolluikOmhoogLivingTerras, rolluikOmlaagLivingTerras
-Calculation livingVoordeur, 50, 52, 53, 54, 56, 57, 58, rolluikOmhooglivingvoordeur, rolluikOmlaaglivingvoordeur
-Calculation garage,       	 60, 62, 63, 64, 66, 67, 68, rolluikOmhoogGarage, rolluikOmlaagGarage
-Calculation badkamerGroot,  70, 72, 73, 74, 76, 77, 78, rolluikOmhoogBadkamerGroot, rolluikOmlaagBadkamerGroot
-Calculation badkamerKlein,  80, 82, 83, 84, 86, 87, 88, rolluikOmhoogBadkamerKlein, rolluikOmlaagBadkamerKlein
+Calculation livingVoordeur, 50, 52, 53, 54, 56, 57, 58, rolluikOmhoogLivingVoordeur, rolluikOmlaagLivingVoordeur
+Calculation badkamerGroot,  60, 62, 63, 64, 66, 67, 68, rolluikOmhoogBadkamerGroot, rolluikOmlaagBadkamerGroot
+Calculation badkamerKlein,  70, 72, 73, 74, 76, 77, 78, rolluikOmhoogBadkamerKlein, rolluikOmlaagBadkamerKlein
+Calculation garage,       	 80, 82, 83, 84, 86, 87, 88, rolluikOmhoogGarage, rolluikOmlaagGarage
 Calculation bovenKamerWork,  90, 92, 93, 94, 96, 97, 98, rolluikOmhoogBovenKamerWork, rolluikOmlaagBovenKamerWork
 Calculation bovenSlaapkamer, 100, 102, 103, 104, 106, 107, 108, rolluikOmhoogBovenSlaapkamer, rolluikOmlaagBovenSlaapkamer
 
@@ -187,7 +189,7 @@ SERIALINTERRUPT:
 ' *** Serial interrupt ***!
 Debug "Response: "
 	Do While Blen(1,0) > 0   ' While buffer is not empty then
-		' Modify here what needs to be done!!
+		' The char < will make sure that the buffer is cleared.
 		stringByteTmp = Getstr(1,1000)
 		If (stringByteTmp <> "<") Then
 		StringByte = StringByte + stringByteTmp
@@ -275,8 +277,6 @@ End Sub
 Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
 ' Put it on the serial port. 
 Putstr 1, prequal, "*", shutter, "=", up , "-", down, "-", total, Chr(13), Chr(10)
-'CheckAndWriteEEPROM Val(shutter), Val(up), Val(down), Val(total)
-
 End Sub
 
 '**************** STATUS CALCULATION! ****************
@@ -367,20 +367,20 @@ Debug "Checking touchscreen"
 		downStatusForTouch = 67	
 		menuselected = Val(livingVoordeur)	
 		ReverseMenu
-	Elseif Menucheck(Val(garage),TX1,TY1) = 1 Then 
+	Elseif Menucheck(640,TX1,TY1) = 1 Then ' CHANGED THE NUMBER, WAS NOT WORKING! took a random nr
 		upStatusForTouch = 68
 		downStatusForTouch = 69			
-		menuselected = Val(garage)	
-		ReverseMenu
-	Elseif Menucheck(640,TX1,TY1) = 1 Then ' CHANGED THE NUMBER, WAS NOT WORKING! took a random nr
-		upStatusForTouch = 70
-		downStatusForTouch = 71			
 		menuselected = 640
 		ReverseMenu
 	Elseif Menucheck(641,TX1,TY1) = 1 Then ' CHANGED THE NUMBER, WAS NOT WORKING took a random nr
-		upStatusForTouch = 72
-		downStatusForTouch = 73
+		upStatusForTouch = 70
+		downStatusForTouch = 71
 		menuselected = 641
+		ReverseMenu
+	Elseif Menucheck(Val(garage),TX1,TY1) = 1 Then 
+		upStatusForTouch = 72
+		downStatusForTouch = 73			
+		menuselected = Val(garage)	
 		ReverseMenu
 	Elseif Menucheck(Val(bovenKamerWork),TX1,TY1) = 1 Then 
 		upStatusForTouch = 74
@@ -395,7 +395,7 @@ Debug "Checking touchscreen"
 	Endif 
 End Sub
 
-''**************** Send mesage trough serial to show the end user?! '****************
+''**************** Send a message through the serial port to show the end user. '****************
 Sub SendMessage(messageSerial As String)
 	SendOutSerial messageSerial, 0, 0, 0
 End Sub
