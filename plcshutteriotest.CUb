@@ -44,42 +44,16 @@ DoLadderInt:
  SendOutSerial
 
 ' Update the merkers.	
- Debug "DATAW 10 = ", Hex _D(10), Cr 'Print datawoord 0 waarde
- Debug "DATAW 11 = ", Hex _D(20), Cr 'Print datawoord 1 waarde
+ Debug "DATAW 10 UP = ", Hex _D(10), Cr 'Print datawoord 0 waarde
+ Debug "DATAW 20 DOWN = ", Hex _D(20), Cr 'Print datawoord 1 waarde
+ Debug "DATAW 60 = ", Dec _T(60), Cr 'Print datawoord 1 waarde
 _D(15) = _D(10)
 _D(25) = _D(20)
 Return
 
 '------- Serial Interrupt by Serial port -----------------------
 SERIALINTERRUPT:
-' *** Serial interrupt ***!
- Do While Blen(1,0) > 0   ' While buffer is not empty...
-  	stringByteTmp = Getstr(1,1000)
-  	If (stringByteTmp <> "<") Then
-	 	StringByte = StringByte + stringByteTmp
-  	Else				
-		If (Val(StringByte) = 100) Then
-			Debug "CLOSE ALL"
-		 	
-			 ' Check here If there are no opening. MAKE SURE THEY ARE CLOSED
-			 
-			 
-		Elseif (Val(StringByte) = 200) Then
-		
-			' Check here if there are no closing. MAKE SURE THEY ARE OPENED.
-							
-			Debug "OPEN ALL"	
-		Else
-			For iocounter = lowestInput To highestInput
-				If Val(StringByte) = iocounter Then
-					Debug "Valid value"
-					_M(iocounter) = 1
-				End If	
-			Next		
-		End If	
-	StringByte = ""	
-  	End If
- Loop
+
 Return
 
 '------------------ End of the program. -------------------------
