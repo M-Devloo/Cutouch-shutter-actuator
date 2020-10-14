@@ -22,12 +22,22 @@ Dim statusofshuttersdownword As String
 ' Input definition
 #define lowestInput 56
 #define highestInput 57
+#define waitForEMK 30
+#define rolluikomhoog 141
+#define rolluikomlaag 134
+
+Delay 200
 
 '-------------------------------------
 #Include "PindefShutters.INC"
 '--------------------------------------
 
 SerialCommunication
+
+
+_D(200) = waitForEMK
+_D(201) = rolluikomhoog
+_D(202) = rolluikomlaag
 
 Set Outonly On
 Set Ladder On  
@@ -44,12 +54,10 @@ DoLadderInt:
  SendOutSerial
  
 ' Update the merkers.	
- Debug "Up 56 = ", Dec _T(56), "%", Cr 'Print datawoord 1 waarde
- Debug "Down 58 = ", Dec _T(58), "%", Cr 'Print datawoord 1 waarde
- Debug "Status 60 = ", Dec _T(60), "%", Cr 'Print datawoord 1 waarde
+ Debug "Up D2 = ", Dec _D(2), "%", Cr 'Print datawoord 1 waarde
+ Debug "Down D6 = ", Dec _D(6), "%", Cr 'Print datawoord 1 waarde
+ Debug "Status D8 = ", Dec _D(8), "%", Cr 'Print datawoord 1 waarde
  
-_D(15) = _D(10)
-_D(25) = _D(20)
 Return
 
 '------- Serial Interrupt by Serial port -----------------------
