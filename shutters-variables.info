@@ -1,0 +1,87 @@
+D(0) = Counter increase rolluik achterkamer omhoog
+D(2) = Status achterkamer omhoog %
+D(3) = Status achterkamer omhoog PREVIOUS %
+D(4) = Counter increase rolluik achterkamer omlaag
+D(6) = Status achterkamer omlaag %
+D(7) = Status achterkamer omlaag PREVIOUS %
+D(8) = Status Rolluik achterkamer
+
+D(10) = Counter increase rolluik slaapkamer omhoog
+D(12) = Status slaapkamer omhoog %
+D(13) = Status slaapkamer omhoog PREVIOUS %
+D(14) = Counter increase rolluik slaapkamer omlaag
+D(16) = Status slaapkamer omlaag %
+D(17) = Status slaapkamer omlaag PREVIOUS %
+D(18) = Status slaapkamer Rolluik
+
+D(20) = Counter increase rolluik keuken omhoog
+D(22) = Status keuken omhoog %
+D(23) = Status keuken omhoog PREVIOUS %
+D(24) = Counter increase rolluik keuken omlaag
+D(26) = Status keuken omlaag %
+D(27) = Status keuken omlaag PREVIOUS %
+D(28) = Status keuken Rolluik
+
+D(30) = Counter increase rolluik livingtuin omhoog
+D(32) = Status livingtuin omhoog %
+D(33) = Status livingtuin omhoog PREVIOUS %
+D(34) = Counter increase rolluik livingtuin omlaag
+D(36) = Status livingtuin omlaag %
+D(37) = Status livingtuin omlaag PREVIOUS %
+D(38) = Status livingtuin Rolluik
+
+D(40) = Counter increase rolluik livingterras omhoog
+D(42) = Status livingterras omhoog %
+D(43) = Status livingterras omhoog PREVIOUS %
+D(44) = Counter increase rolluik livingterras omlaag
+D(46) = Status livingterras omlaag %
+D(47) = Status livingterras omlaag PREVIOUS %
+D(48) = Status livingterras Rolluik
+
+D(50) = Counter increase rolluik livingvoordeur omhoog
+D(52) = Status livingvoordeur omhoog %
+D(53) = Status livingvoordeur omhoog PREVIOUS %
+D(54) = Counter increase rolluik livingvoordeur omlaag
+D(56) = Status livingvoordeur omlaag %
+D(57) = Status livingvoordeur omlaag PREVIOUS %
+D(58) = Status livingvoordeur Rolluik
+
+D(60) = Counter increase rolluik garage omhoog
+D(62) = Status garage omhoog %
+D(63) = Status garage omhoog PREVIOUS %
+D(64) = Counter increase rolluik garage omlaag
+D(66) = Status garage omlaag %
+D(67) = Status garage omlaag PREVIOUS %
+D(68) = Status garage Rolluik
+
+D(70) = Counter increase rolluik badkamergroot omhoog
+D(72) = Status badkamergroot omhoog %
+D(73) = Status badkamergroot omhoog PREVIOUS %
+D(74) = Counter increase rolluik badkamergroot omlaag
+D(76) = Status badkamergroot omlaag %
+D(77) = Status badkamergroot omlaag PREVIOUS %
+D(78) = Status badkamergroot Rolluik
+
+D(80) = Counter increase rolluik badkamerklein omhoog
+D(82) = Status badkamerklein omhoog %
+D(83) = Status badkamerklein omhoog PREVIOUS %
+D(84) = Counter increase rolluik badkamerklein omlaag
+D(86) = Status badkamerklein omlaag %
+D(87) = Status badkamerklein omlaag PREVIOUS %
+D(88) = Status badkamerklein Rolluik
+
+D(90) = Counter increase rolluik bovenKamerWork omhoog
+D(92) = Status bovenKamerWork omhoog %
+D(93) = Status bovenKamerWork omhoog PREVIOUS %
+D(94) = Counter increase rolluik bovenKamerWork omlaag
+D(96) = Status bovenKamerWork omlaag %
+D(97) = Status bovenKamerWork omlaag PREVIOUS %
+D(98) = Status bovenKamerWork Rolluik
+
+D(100) = Counter increase rolluik bovenSlaapkamer omhoog
+D(102) = Status bovenSlaapkamer omhoog %
+D(103) = Status bovenSlaapkamer omhoog PREVIOUS %
+D(104) = Counter increase rolluik bovenSlaapkamer omlaag
+D(106) = Status bovenSlaapkamer omlaag %
+D(107) = Status bovenSlaapkamer omlaag PREVIOUS %
+D(108) = Status bovenSlaapkamer Rolluik

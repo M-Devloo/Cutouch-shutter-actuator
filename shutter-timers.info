@@ -1,0 +1,43 @@
+T(0) = Rolluik omhoog achterkamer
+T(1) = Rolluik omlaag achterkamer
+T(2) = Wait for EMK (Rolluik achterkamer)
+
+T(3) = Rolluik omlaag slaapkamer
+T(4) = Rolluik omhoog slaapkamer
+T(5) = Wait for EMK (Rolluik slaapkamer)
+
+T(6) = Rolluik omhoog keuken
+T(7) = Rolluik omlaag keuken
+T(8) = Wait for EMK (Rolluik keuken)
+
+T(9) = Rolluik omhoog livingtuin
+T(10) = Rolluik omlaag livingtuin
+T(11) = Wait for EMK (Rolluik livingtuin)
+
+T(12) = Rolluik omhoog livingterras
+T(13) = Rolluik omlaag livingterras
+T(14) = Wait for EMK (Rolluik livingterras)
+
+T(15) = Rolluik omhoog livingvoordeur
+T(16) = Rolluik omlaag livingvoordeur
+T(17) = Wait for EMK (Rolluik livingvoordeur)
+
+T(18) = Rolluik omhoog garage
+T(19) = Rolluik omlaag garage
+T(20) = Wait for EMK (Rolluik garage)
+
+T(21) = Rolluik omhoog badkamergroot
+T(22) = Rolluik omlaag badkamergroot
+T(23) = Wait for EMK (Rolluik badkamergroot)
+
+T(24) = Rolluik omhoog badkamerklein
+T(25) = Rolluik omlaag badkamerklein
+T(26) = Wait for EMK (Rolluik badkamerklein)
+
+T(27) = Rolluik omhoog bovenKamerWork
+T(28) = Rolluik omlaag bovenKamerWork
+T(29) = Wait for EMK (Rolluik bovenKamerWork)
+
+T(30) = Rolluik omhoog bovenSlaapkamer
+T(31) = Rolluik omlaag bovenSlaapkamer
+T(32) = Wait for EMK (Rolluik bovenSlaapkamer)

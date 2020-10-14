@@ -106,16 +106,42 @@ bovenSlaapkamer = "79"
 #define shortbeep Pulsout 18,150 ' Send out short beep to piezo
 
 ' Input definition
-#define lowestInput 56
-#define highestInput 57
 #define waitForEMK 30
-#define rolluikomhoogachterkamer 141
-#define rolluikomlaagachterkamer 134
-#define rolluikomhoogslaapkamer 200
-#define rolluikomlaagslaapkamer 250
+#define rolluikOmhoogAchterkamer 999
+#define rolluikOmlaagAchterkamer 999
+
+#define rolluikOmhoogSlaapkamer 182
+#define rolluikOmlaagSlaapkamer 172
+
+#define rolluikOmhoogKeuken 141
+#define rolluikOmlaagKeuken 139
+
+#define rolluikOmhoogLivingTuin 999
+#define rolluikOmlaagLivingTuin 999
+
+#define rolluikOmhoogLivingTerras 202
+#define rolluikOmlaagLivingTerras 181
+
+#define rolluikOmhooglivingvoordeur 999
+#define rolluikOmlaaglivingvoordeur 999
+
+#define rolluikOmhoogGarage 999
+#define rolluikOmlaagGarage 999
+
+#define rolluikOmhoogBadkamerGroot 999
+#define rolluikOmlaagBadkamerGroot 999
+
+#define rolluikOmhoogBadkamerKlein 999
+#define rolluikOmlaagBadkamerKlein 999
+
+#define rolluikOmhoogBovenKamerWork 999
+#define rolluikOmlaagBovenKamerWork 999
+
+#define rolluikOmhoogBovenSlaapkamer 999
+#define rolluikOmlaagBovenSlaapkamer 999
 
 #define laagsteInput 56
-#define hoogsteInput 59
+#define hoogsteInput 77
 
 
 Delay 200
@@ -125,10 +151,28 @@ Delay 200
 SerialCommunication
 
 _D(200) = waitForEMK
-_D(201) = rolluikomhoogachterkamer
-_D(202) = rolluikomlaagachterkamer
-_D(203) = rolluikomhoogslaapkamer
-_D(204) = rolluikomlaagslaapkamer
+_D(201) = rolluikOmhoogAchterkamer
+_D(202) = rolluikOmlaagAchterkamer
+_D(203) = rolluikOmhoogSlaapkamer
+_D(204) = rolluikOmlaagSlaapkamer
+_D(205) = rolluikOmhoogKeuken
+_D(206) = rolluikOmlaagKeuken
+_D(207) = rolluikOmhoogLivingTuin
+_D(208) = rolluikOmlaagLivingTuin
+_D(209) = rolluikOmhoogLivingTerras
+_D(210) = rolluikOmlaagLivingTerras
+_D(211) = rolluikOmhooglivingvoordeur
+_D(212) = rolluikOmlaaglivingvoordeur
+_D(213) = rolluikOmhoogGarage
+_D(214) = rolluikOmlaagGarage
+_D(215) = rolluikOmhoogBadkamerGroot
+_D(216) = rolluikOmlaagBadkamerGroot
+_D(217) = rolluikOmhoogBadkamerKlein
+_D(218) = rolluikOmlaagBadkamerKlein
+_D(219) = rolluikOmhoogBovenKamerWork
+_D(220) = rolluikOmlaagBovenKamerWork
+_D(221) = rolluikOmhoogBovenSlaapkamer
+_D(222) = rolluikOmlaagBovenSlaapkamer
 
 Set Outonly On
 Set Ladder On  
@@ -155,8 +199,8 @@ Loop
 '------- Ladder Interrupt by F40 -----------------------
 DoLadderInt:
 
-Calculation achterkamer, 0, 2, 3, 4, 6, 7, 8, rolluikomhoogachterkamer, rolluikomlaagachterkamer
-Calculation slaapkamer, 10, 12, 13, 14, 16, 17, 18, rolluikomhoogslaapkamer, rolluikomlaagslaapkamer
+Calculation achterkamer, 0, 2, 3, 4, 6, 7, 8, rolluikOmhoogAchterkamer, rolluikOmlaagAchterkamer
+Calculation slaapkamer, 10, 12, 13, 14, 16, 17, 18, rolluikOmhoogSlaapkamer, rolluikOmlaagSlaapkamer
 
 Return
 
@@ -271,10 +315,10 @@ End Sub
 
 Sub Calculation(room As String, counterIncrease As Byte, statusup As Byte, previousStatusUp As Byte, counterDown As Byte, statusdown As Byte, previousStatusDown As Byte, percentageStatus As Byte, shutterUpCalibration As Integer, shutterDownCalibration As Integer)
 
-If _D(previousStatusUp) > _D(statusUp) Or _D(previousStatusDown) > _D(statusDown) Then
+If _D(previousStatusUp) > _D(statusup) Or _D(previousStatusDown) > _D(statusdown) Then
 	' When status needs to be synched (when the shutter is done)
-	SendOutSerial room, Hex _D(statusUp), Hex _D(statusDown), Hex _D(percentageStatus)
-	Debug "Up ", Dec _D(statusUp), "% - ", "Down ", Dec _D(statusDown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
+	SendOutSerial room, Hex _D(statusup), Hex _D(statusdown), Hex _D(percentageStatus)
+	Debug "Up ", Dec _D(statusup), "% - ", "Down ", Dec _D(statusdown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
 	_D(previousStatusUp) = 0
 	_D(previousStatusDown) = 0
 End If
