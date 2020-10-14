@@ -51,6 +51,8 @@ Loop
 
 '------- Ladder Interrupt by F40 -----------------------
 DoLadderInt:
+
+
 ' Write to the serial port when a value has modified.
  SendOutSerial
  
@@ -85,6 +87,6 @@ statusofshuttersdownword = Hex _D(6)
 statusofshutterstotal = Hex _D(8)
 
 ' Put it on the serial port.
-Putstr 1, statusofshuttersdownword , "-", statusofshutterupword, "-", statusofshutterstotal Chr(13), Chr(10)
+Putstr 1, statusofshuttersdownword , "-", statusofshutterupword, "-", statusofshutterstotal, Chr(13), Chr(10)
 End Sub
 
