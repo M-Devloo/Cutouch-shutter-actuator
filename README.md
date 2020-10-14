@@ -273,7 +273,7 @@ Overview of the schneider relays
 ![Relays overview](images/Schneider_relays.JPG =250x250)
 
 Detailed schematic of a relay
-![Relay](images/Schneider_relay_detail.JPG =250x250)
+![Relay detailed](images/Schneider_relay_detail.JPG){:height="700px" width="400px"}
 
 ---
 
