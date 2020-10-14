@@ -38,15 +38,7 @@ Although don't forget to connect the +12V to the COM (black wire). You need to d
 
 ![Input schematic](images/input_schematic.png)
 
-### Output schematic
-
-The output schematic requires the A1 (From the relay) to be connected to +12V DC. The other side needs to be connected to the output which will sink it to the GND.  
-For a real life example, you can check the pictures below.  
-
-![Output schematic](images/output_schematic.png)
-
-
-### Input
+#### Input (definition)
 
 All inputs are described in the file: [shutterIO.inc](ShutterIO.inc)  
 For each room two buttons were located to control the shutter for that particular room.  
@@ -63,7 +55,14 @@ Usepin 60,In,OmhoogKeuken ' Used for `UP` in kitchen
 Usepin 61,In,OmlaagKeuken ' Used for `DOWN` in kitchen
 ```
 
-### Output
+### Output schematic
+
+The output schematic requires the A1 (From the relay) to be connected to +12V DC. The other side needs to be connected to the output which will sink it to the GND.  
+For a real life example, you can check the pictures below.  
+
+![Output schematic](images/output_schematic.png)
+
+#### Output (definition)
 
 All outputs were wired like the same according to the inputs.
 All outputs are described in the file: [shutterIO.inc](ShutterIO.inc)  
@@ -80,6 +79,8 @@ Usepin 27,Out,RelaisOmlaagSlaapkamer ' Used for `DOWN` in bedroom 2 (Relay)
 Usepin 28,Out,RelaisOmhoogKeuken ' Used for `UP` in kitchen (Relay)
 Usepin 29,Out,RelaisOmlaagKeuken ' Used for `DOWN` in kitchen (Relay)
 ```
+
+---
 
 # Software
 
@@ -116,7 +117,7 @@ For each room the same ladder code is used. This means for Ladder, duplication!
 Every row contains the logic for one specific button. The one starting with `P56` is the one for the UP. The one starting with `P57` is the one for down.  
 Lets start with the first row. 
 
-* P56 = Push button for Shutter `UP` & P57 = Push button for Shutter `Down`. This is explained in section: [Output](#output) & [Input](#input)  
+* P56 = Push button for Shutter `UP` & P57 = Push button for Shutter `Down`. This is explained in section: [Output](#output-definition) & [Input](#input-definition)  
 ** Due they are put serial, it is never possible to push `UP` & `DOWN` at the same time. Basically if the shutter goes up & you press down. The shutter will stop & the EMK deadzone will kick in which disables the buttons for 500 ms.
 
 
