@@ -168,11 +168,11 @@ Debug "Response: "
 		Else				
 			'check to trigger the ALL UIT	of ALLES AAN.
 			If (Val(StringByte) = 1000) Then
-			Debug "All OFF"
-		 	'SwitchAllOff
-			Elseif (Val(StringByte) = 2000) Then
-			'SwitchAllOn				
-			Debug "ALL ON"				
+			Debug "All Up"
+		 	AllUp
+			Elseif (Val(StringByte) = 2000) Then			
+			Debug "ALL Down"
+			AllDown				
 			Else 'Verify if its is valid.
 				For iocounter = laagsteInput To hoogsteInput
 					If Val(StringByte) = iocounter Then
