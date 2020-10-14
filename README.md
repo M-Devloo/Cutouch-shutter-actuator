@@ -11,7 +11,7 @@ This system was running about more than one year as my primary source to control
 * RS232 support to open or close each individual shutter or open / close ALL shutters.
 * RS232 serial interrupt feedback that shows the status of a individual shutter (with offset of 1%) depending on timings.
 * RS232 & physical push buttons can be used simultaneously.
-* Touchscreen will be dimmed after 1 minute. First touch will light up the backlight, second touch will control the elements on screen.
+* Touchscreen will be dimmed after 20 seconds. First touch will light up the backlight, second touch will control the elements on screen.
 
 This code mimics a full blown Shutter Actuator like you would buy for a home automation system.
 
@@ -23,15 +23,20 @@ Comfiletech has a complete datasheet that contains the information for this PLC.
 * [PLC hardware](http://comfiletech.com/embedded-controller/controller-with-touch/cutouch/ct1721c-mono-lcd-touch-cubloc-i-o/)
 * [Datasheet & Basic code](http://comfiletech.com/content/cubloc/cublocmanual.pdf)
 
-The PLC including the relays (Schneider 12V relays) where powered through a 2A - 12V DC power supply.  
+The PLC including the relays (Schneider 12V relays) where powered through a 7.5A - 12V DC power supply.  
 For the output wiring, it is not required to use a buffer IC as the `CT1720` can deliver enough power to control a 12V relay. 
 Even driving 11 at the same time.
 
 ## Hardware schematic for the shutter actuator
 
-The full system was powered through a 12V - 2A schneider power supply. This includes the PLC, push buttons & all relays.
+The full system was powered through a 12V - 7.5A  meanwell power supply. This includes the PLC, push buttons & all relays.
+
+_{insert_hw_schematic here}
 
 ## Real life picture of the hardware
+
+_{insert_hw_real_life_pictures here}
+
 
 ### Input
 
@@ -192,19 +197,62 @@ There are a few files attached that contains information on which does what. Alt
 * [Shutter variables](shutters-variables.info)
 * [Shutter IO's](ShutterIO.inc)
 
-## Basic software
+# Basic software
 
-# Basic logic
+The start of the application is mostly initialization. Although the #define are pretty important.  
+The #defines allow you to set the shutter time definitions on how long it takes for a certain shutter to go UP or to get DOWN. (From fully DOWN to UP and from fully UP to down).   
+This is required for the status calculation. (Unit: 1/10 second)
 
-# Touchscreen
+```
+#define rolluikOmhoogAchterkamer 159 
+#define rolluikOmlaagAchterkamer 156
 
-# RS232
+#define rolluikOmhoogSlaapkamer 182
+#define rolluikOmlaagSlaapkamer 172
+```
 
- 
+After that it waits 200 ms before booting & initializing the serial communication in the Sub: `InitializeSerialCommunication`.
+This sets the Serial port to use BAUDRATE: `115200`, NO parity, One stop bit with a receive buffer of 80 bytes & send buffer of 1Kb.
+It also mentions if a serial interrupt is received, it should go to the Sub SERIALINTERRUPT.
 
+It enables the PLC outputs through `Set Outonly On` ,enables the Ladder code through `Set Ladder On`. & enables the touch screen
+The touch screen is fully drawn in... Basic! This is done by importing the ShutterScreen.inc which contains a sub called Drawscreen. This fully draws the screen with interrupt attachments.  
+The interrupt is initialized through the sub:  `TouchScreen`
 
+## Interrupts
+The software is fully event handled driven. Meaning everything is done through interrupts either in basic or in ladder.
 
+* SERIALINTERRUPT
+* EVERY100ms
+* TouchScreen
 
+### SERIALINTERRUPT
+The push buttons that are physically wired are interrupted in the ladder software, but the serial incoming data is handled here.
+Its a simple statemachine that is using the character `<` as a stop char. My backend always sent out the following example string when i want to open a certain shutter: `<56<`.
 
+Some examples:
+
+`<56<` : This open (up) the shutter in Bedroom 1.
+`<57<` : This closes (down) the shutter in Bedroom 1.
+`<1000<` : This triggers for every single shutter the "UP" merkers. This is executed in the Sub: AllUp.
+`<2000<` : This triggers for every single shutter the "DOWN" merkers. This is executed in the Sub: AllDown.
+
+### EVERY100ms
+This interrupt is created for the touch screen. After 20 seconds, the display turns off. 
+
+### TouchScreen
+When the touchscreen is pressed, it goes into this interrupt.  
+It checks which button was pressed & depending which location on the screen, it will enable a certain merker and / or manipulate the menu's on the touch screen.
+
+### Calculation
+
+The calculation part is executed on the ladder interrupt (DoLadderInt). For every single percentage, it recalculates the status of the shutter.  
+This also means if ALL shutters are going down or up, your serial port gets spammed with status reports. This is done with the Sub: `SendOutSerial`
+
+---
+
+## License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE.txt) for details. 
 
 
