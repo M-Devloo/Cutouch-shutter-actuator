@@ -14,6 +14,7 @@ Dim stringByteTmp As String
 
 ' ** Input counter **
 Dim iocounter As Byte
+Dim upordown As Byte
 
 ' Save the serial output as string for now.
 Dim statusofshutterupword As String
@@ -47,6 +48,13 @@ DoLadderInt:
  Debug "DATAW 10 UP = ", Hex _D(10), Cr 'Print datawoord 0 waarde
  Debug "DATAW 20 DOWN = ", Hex _D(20), Cr 'Print datawoord 1 waarde
  Debug "DATAW 60 = ", Dec _T(60), Cr 'Print datawoord 1 waarde
+ If _D(15) <> _D(10) Then
+ 	upordown = 1
+	_T(64) = 1
+ Elseif _D(25) <> _D(20) Then
+ 	upordown = 0
+	 _T(64) = 0
+ End If
 _D(15) = _D(10)
 _D(25) = _D(20)
 Return
