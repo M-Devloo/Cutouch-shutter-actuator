@@ -2,8 +2,8 @@ T(0) = Rolluik omhoog achterkamer
 T(1) = Rolluik omlaag achterkamer
 T(2) = Wait for EMK (Rolluik achterkamer)
 
-T(3) = Rolluik omlaag slaapkamer
-T(4) = Rolluik omhoog slaapkamer
+T(3) = Rolluik omhoog slaapkamer
+T(4) = Rolluik omlaag slaapkamer
 T(5) = Wait for EMK (Rolluik slaapkamer)
 
 T(6) = Rolluik omhoog keuken

@@ -16,7 +16,7 @@ Usepin 68,In,OmhoogGarage
 Usepin 69,In,OmlaagGarage
 Usepin 70,In,OmhoogBadkamerGroot
 Usepin 71,In,OmlaagBadkamerGroot
-Usepin 73,In,OmhoogBadkamerKlein
+Usepin 72,In,OmhoogBadkamerKlein
 Usepin 73,In,OmlaagBadkamerKlein
 Usepin 74,In,OmhoogBovenkamerWork
 Usepin 75,In,OmlaagBovenkamerWork
