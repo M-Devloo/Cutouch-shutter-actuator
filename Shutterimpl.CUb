@@ -4,7 +4,7 @@
 ' ************************************************************************************************
 Const Device = CT1720
 Ramclear
-Set Debug On
+Set Debug Off
 
 ' *********** Main Initialisation ********************
 Dim StringByte As String
@@ -100,8 +100,8 @@ bovenSlaapkamer = "79"
 #define rolluikOmhoogLivingVoordeur 100
 #define rolluikOmlaagLivingVoordeur 100
 
-#define rolluikOmhoogGarage 160
-#define rolluikOmlaagGarage 155
+#define rolluikOmhoogGarage 140
+#define rolluikOmlaagGarage 135
 
 #define rolluikOmhoogBadkamerGroot 170
 #define rolluikOmlaagBadkamerGroot 156
