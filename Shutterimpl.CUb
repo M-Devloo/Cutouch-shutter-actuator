@@ -1,6 +1,7 @@
 ' *************************** PLC Cutouch CT1720 programma ***************************************
 ' Written by Michael Devloo
-' Shutter system based on CuTouch CT1720 PLC.
+' Current Version: V1.2.1
+' Shutter system based on CuTouch CT1720 PLC. (http://comfiletech.com/embedded-controller/controller-with-touch/cutouch/ct1721c-mono-lcd-touch-cubloc-i-o/)
 ' ************************************************************************************************
 Const Device = CT1720
 Ramclear
@@ -40,7 +41,7 @@ Dim prequal As String
 prequal = "SHUTTER"
 
 'This is the room definition which are configured in the ShutterScreen.inc file.
-'If there are more than one shutter In the room., extra index is added.
+'If there are more than one shutter in the room, extra index is added.
 'This is only used for the visual effect on the PLC touch screen & Serial output.
 Dim achterkamer As String
 achterkamer = "56"
@@ -79,9 +80,10 @@ bovenSlaapkamer = "79"
 #define shortbeep Pulsout 18,150 ' Send out short beep to piezo
 
 ' This is the time on how long the PLC should wait before allowing to reverse a motor (Unit: 1/10 second) 
-#define waitForEMK 30
+#define waitForEMK 30 ' 300 ms. Don't set this to 0, else you will blow out your relay when reversing the shutter motor.
 
 ' This is the time definitions on how long it takes for a shutter to get UP or to get DOWN. (Unit: 1/10 second)
+' Based on my own home. - Mixture of Dutch & English.
 #define rolluikOmhoogAchterkamer 159 
 #define rolluikOmlaagAchterkamer 156
 
@@ -116,8 +118,8 @@ bovenSlaapkamer = "79"
 #define rolluikOmlaagBovenSlaapkamer 100
 
 ' This is the definition what the lowest PLC input and the highest PLC input is that is used by this software.
-#define laagsteInput 56
-#define hoogsteInput 77
+#define laagsteInput 56 ' Lowest PLC input address (P56)
+#define hoogsteInput 77 ' Highest used PLC input (P77)
 
 ' Delay before booting.
 Delay 200
@@ -155,8 +157,8 @@ _D(220) = rolluikOmlaagBovenKamerWork
 _D(221) = rolluikOmhoogBovenSlaapkamer
 _D(222) = rolluikOmlaagBovenSlaapkamer
 
-Set Outonly On
-Set Ladder On  
+Set Outonly On ' Enables the PLC outputs.
+Set Ladder On  ' Enables the ladder routine.
 
 On Ladderint Gosub DoLadderInt   ' Initialize ladder interrupt.
 On Timer(10) Gosub EVERY100ms		' Set Timer interrupt to every 100ms
@@ -166,8 +168,9 @@ Set Pad 0,4,20     ''Mode 0, Packet size 4 bytes, Buffer 20 bytes
 
 ' Draw the screen which is located in ShutterScreen.inc file.
 Drawscreen 
-On Pad Gosub TouchScreen
+On Pad Gosub TouchScreen 'When the touch screen is selected, go to this sub.
 
+' Do loop does nothing as its all event handled driven.
 Do
 Loop
 
