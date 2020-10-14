@@ -1,21 +1,28 @@
-T(0) = Rolluik omhoog
-T(1) = Rolluik omlaag
-T(2) = Wait for EMK (Rolluik)
-T(3) = Rolluik omlaag interrupt
-T(4) = Rolluik omhoog interrupt
+T(0) = Rolluik omhoog achterkamer
+T(1) = Rolluik omlaag achterkamer
+T(2) = Wait for EMK (Rolluik achterkamer)
+
+T(3) = Rolluik omlaag slaapkamer
+T(4) = Rolluik omhoog slaapkamer
+T(5) = Wait for EMK (Rolluik slaapkamer)
+
+D(0) = Counter increase rolluik achterkamer omhoog
+D(2) = Status achterkamer omhoog %
+D(4) = Counter increase rolluik achterkamer omlaag
+D(6) = Status achterkamer omlaag %
+D(8) = Status Rolluik achterkamer
+
+D(10) = Counter increase rolluik slaapkamer omhoog
+D(12) = Status slaapkamer omhoog %
+D(14) = Counter increase rolluik slaapkamer omlaag
+D(16) = Status slaapkamer omlaag %
+D(18) = Status slaapkamer Rolluik
 
 
-D(0) = Counter increase rolluik omhoog
-D(1) = D(0) x 10
-D(2) = Status omhoog %
-
-D(4) = Counter increase rolluik omlaag
-D(5) = D(4) x 10
-D(6) = Status omlaag %
-
-D(8) = Status Rolluik
 
 
 D(200) = WAIT 				 (CONST)
-D(201) = TIME ROLLUIK OMHOOG (CONST)
-D(202) = TIME ROLLUIK OMLAAG (CONST)
+D(201) = TIME ROLLUIK OMHOOG ACHTERKAMER (CONST)
+D(202) = TIME ROLLUIK OMLAAG ACHTERKAMER (CONST)
+D(203) = TIME ROLLUIK OMHOOG SLAAPKAMER (CONST)
+D(204) = TIME ROLLUIK OMLAAG SLAAPKAMER (CONST)

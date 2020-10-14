@@ -1,9 +1,12 @@
 ' PINDEF.INC
 
-' Update the outputs still!!!
-Usepin 56,In,Omhoog ' OK
-Usepin 57,In,Omlaag ' OK
+Usepin 56,In,OmhoogAchterkamer 
+Usepin 57,In,OmlaagAchterkamer
+Usepin 58,In,OmhoogSlaapkamer 
+Usepin 59,In,OmlaagSlaapkamer
 
 '*********** OUTPUTS *******************'
-Usepin 24,Out,RelaisOmhoog 'OK
-Usepin 25,Out,RelaisOmlaag 'OK
+Usepin 24,Out,RelaisOmhoogAchterkamer
+Usepin 25,Out,RelaisOmlaagAchterkamer 
+Usepin 26,Out,RelaisOmhoogSlaapkamer
+Usepin 27,Out,RelaisOmlaagSlaapkamer
