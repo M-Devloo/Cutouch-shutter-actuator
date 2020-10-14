@@ -15,6 +15,19 @@ Dim stringByteTmp As String
 ' ** Input counter **
 Dim iocounter As Byte
 
+' ** Backlight **
+Dim Clock As Integer					'Artificial Clock
+Dim SavedTime As Integer				'Variable to save current time
+Dim LightOff As Byte					'Backlight Status (0 or 1)
+
+' ** Touchscreen **
+Dim TX1 As Integer 
+Dim TY1 As Integer
+Dim upStatusForTouch As Byte
+Dim downStatusForTouch As Byte
+Dim menuselected As Integer
+Dim menuselectedprevious As Integer	
+
 ' Save the serial output as string for now.
 Dim statusofshutterupword As String
 Dim statusofshuttersdownword As String
@@ -47,7 +60,7 @@ Dim garage As String
 garage = "67"
 
 Dim badkamerGroot As String
-badkamerGroot = "690"
+badkamerGroot = "690" 
 
 Dim badkamerKlein As String
 badkamerKlein = "691"
@@ -58,6 +71,8 @@ bovenKamerWork = "75"
 Dim bovenSlaapkamer As String
 bovenSlaapkamer = "79"
 
+' Piezo definition
+#define shortbeep Pulsout 18,150 ' Send out short beep to piezo
 
 ' Input definition
 #define lowestInput 56
@@ -88,12 +103,16 @@ Set Outonly On
 Set Ladder On  
 
 On Ladderint Gosub DoLadderInt
+On Timer(10) Gosub EVERY100ms		' Set Timer interrupt to every 100ms
 
-drawscreen
+' Touch screen intialization
+Set Pad 0,4,20     ''Mode 0, Packet size 4 bytes, Buffer 20 bytes
+
+Drawscreen
+On Pad Gosub TouchScreen
 
 Do
 Loop
-
 
 '------- Ladder Interrupt by F40 -----------------------
 DoLadderInt:
@@ -136,6 +155,50 @@ Debug "Response: "
    Debug Cr 'New Line
 Return
 
+'------- Timer to screen backlight -----------------------
+EVERY100ms:
+	Incr Clock
+	'Calculate elapsed time since last touch. If greater than 20 sec, then turn off backlight
+	If Clock-SavedTime>200 Then 	'200 * 100ms = 20 sec
+		LightOff=1
+		Light 0
+	End If
+Return
+
+'------- Touchscreen Interrupt by User -----------------------
+TouchScreen:
+	Set OnPad Off
+	TX1 = Getpad(2)    	''First 2 bytes is the x coordinate
+	TY1 = Getpad(2)    	'Second 2 bytes is y coordinate
+ 	If LightOff=1 Then	'Check if light if OFF
+		SavedTime=Clock	'Reset Time values.
+		LightOff=0			'Set LightOff variable to 0
+		Light 1				'If light is OFF, then turn it ON
+	Else						'If light is ON, then process 											
+		SavedTime=Clock	'Save current time
+	End If
+	
+  ' **** All shutters down button *****
+    If Menucheck(97, TX1, TY1) = 1 Then
+	    shortbeep 
+ 	    AllUp
+  ' **** All shutters up button *****
+    Elseif Menucheck(98, TX1, TY1) = 1 Then
+	   shortbeep 
+ 	   AllDown	
+	 Elseif Menucheck(100, TX1, TY1) = 1 Then
+	   shortbeep 
+		_M(upStatusForTouch) = 1
+		' Set here what to do depending of the other touch screen status		
+	 Elseif Menucheck(101, TX1, TY1) = 1 Then
+	   shortbeep 
+		_M(downStatusForTouch) = 1
+    Else 
+     CheckTouchScreen 	
+    End If 	
+Set OnPad On
+Return
+
 '------------------ End of the program. -------------------------
 End
 
@@ -176,9 +239,105 @@ _D(statusdown) = (_D(counterDown) * 10) / shutterDownCalibration
  	_D(previousStatusUp) = _D(statusup)
  	_D(previousStatusDown) = _D(statusdown)
  Endif
-  
 Endif
+
 End Sub
 
+'**************** All SHUTTERS DOWN! ****************
+Sub AllDown()
+For iocounter = laagsteInput To hoogsteInput
+  	If ((iocounter / 2) * 2 <> iocounter) Then
+		If _M(iocounter) <> 1 Then
+			_M(iocounter) = 1
+			 Debug "allup"
+		End If	
+  	End If
+Next		
+End Sub
+
+'**************** All SHUTTERS UP! ****************
+Sub AllUp()
+For iocounter = laagsteInput To hoogsteInput
+  	If ((iocounter / 2) * 2 = iocounter) Then
+		If _M(iocounter) <> 1 Then
+			_M(iocounter) = 1
+			 Debug "alldown"
+		End If	
+  	End If
+Next	
+End Sub
+
+''**************** WHICH BUTTON PRESSED?! '****************
+Sub CheckTouchScreen()
+Glocate 20,110
+Debug "Checking touchscreen"
+   If Menucheck(Val(achterkamer),TX1,TY1) = 1 Then 
+		upStatusForTouch = 56
+		downStatusForTouch = 57
+		menuselected = Val(achterkamer)
+		ReverseMenu
+	Elseif Menucheck(Val(slaapkamer),TX1,TY1) = 1 Then 
+		upStatusForTouch = 58
+		downStatusForTouch = 59
+		menuselected = Val(slaapkamer)
+		ReverseMenu
+	Elseif Menucheck(Val(keuken),TX1,TY1) = 1 Then 
+		upStatusForTouch = 60
+		downStatusForTouch = 61
+		menuselected = Val(keuken)		
+		ReverseMenu
+	Elseif Menucheck(Val(livingTuin),TX1,TY1) = 1 Then 
+		upStatusForTouch = 62
+		downStatusForTouch = 63		
+		menuselected = Val(livingTuin)
+		ReverseMenu	
+	Elseif Menucheck(Val(livingTerras),TX1,TY1) = 1 Then 
+		upStatusForTouch = 64
+		downStatusForTouch = 65			
+		menuselected = Val(livingTerras)	
+		ReverseMenu
+	Elseif Menucheck(Val(livingVoordeur),TX1,TY1) = 1 Then 
+		upStatusForTouch = 66
+		downStatusForTouch = 67	
+		menuselected = Val(livingVoordeur)	
+		ReverseMenu
+	Elseif Menucheck(Val(garage),TX1,TY1) = 1 Then 
+		upStatusForTouch = 68
+		downStatusForTouch = 69			
+		menuselected = Val(garage)	
+		ReverseMenu
+	Elseif Menucheck(640,TX1,TY1) = 1 Then ' CHANGED THE NUMBER, WAS NOT WORKING! took a random nr
+		upStatusForTouch = 70
+		downStatusForTouch = 71			
+		menuselected = 640
+		ReverseMenu
+	Elseif Menucheck(641,TX1,TY1) = 1 Then ' CHANGED THE NUMBER, WAS NOT WORKING took a random nr
+		upStatusForTouch = 72
+		downStatusForTouch = 73
+		menuselected = 641
+		ReverseMenu
+	Elseif Menucheck(Val(bovenKamerWork),TX1,TY1) = 1 Then 
+		upStatusForTouch = 74
+		downStatusForTouch = 75	
+		menuselected = Val(bovenKamerWork)	
+		ReverseMenu
+	Elseif Menucheck(Val(bovenSlaapkamer),TX1,TY1) = 1 Then 
+		upStatusForTouch = 76
+		downStatusForTouch = 77				
+		menuselected = Val(bovenSlaapkamer)	
+		ReverseMenu
+	Endif 
+End Sub
+
+''**************** REVERSE MENU! '****************
+Sub ReverseMenu()
+If menuselected <> 0 Then
+		Menureverse menuselected
+		If menuselectedprevious <> 0 Then
+			Menureverse menuselectedprevious
+		End If
+		menuselectedprevious = menuselected	
+	End If	
+End Sub
 
 #Include "MAINSCREENSHUTTERS.INC"
