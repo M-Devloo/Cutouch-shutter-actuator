@@ -74,10 +74,13 @@ The editor to upload & edit the basic & ladder code is Cubloc Studio which can b
 The code exists out of two different programming languages: `Basic` & `Ladder`.  
 The most critical code is located in the Ladder diagram which is basically controlling the inputs, the output relays as well the EMK logic for each shutter.
 
-The `ShutterIO.inc` allows you to name certain inputs which can be found in the ladder diagram.
-
+The software works together meaning ladder interrupts which are from the ladder diagram to the basic code. (Through the DoLadderInt INTERRUPT).
+There is also basic to ladder interrupts through the datawords & merkers. (Most of the starting with `_DXX`)
 
 ## Ladder software
+
+> The `ShutterIO.inc` allows you to name certain inputs which can be found in the ladder diagram.
+
 
 ### Ladder input logic.
 
@@ -113,7 +116,7 @@ Lets start with the first row.
 
 * M56 is the simulated push button through RS232 AND for the touchscreen. This acts as a physical button.
 
-> This logic is also duplicated for the "DOWN" but reversed as the UP button. For each room, the timers gets increased by `3`. All the info can be found under: [shutter-timers.info](shutter-timers.info) on what they mean.
+> This logic is also duplicated for the "DOWN" but reversed as the UP button. For each room, the timers ID's gets increased by `3`. All the info can be found under: [shutter-timers.info](shutter-timers.info) on what they mean.
 
 This logic has been fully tested for over one year, with simultaneous up & down presses etc, ... So its pretty robust. 
 
@@ -137,8 +140,65 @@ This output code is straight forward. If input is actived, enable relay. When th
 
 #### Status calculation logic.
 
+Once again for each room, the same ladder code is used for status calculation. So for each room, this is duplicated although with their own merkers, data variables & timers.
+Although the ladder code is used for grabbing the current status. The percentage calculation is done in the ladder interrupt on the Calculation Sub.
+
+![Bedroom 1](images/ladder_status.PNG)
+
+Once again, every row is used for one typical status calculation. This is for the same room as we used for both previous explanations.
+Lets start with the first row.
+
+These are the variables used for `Bedroom 1`
+
+```
+D(0) = Counter increase shutter bedroom 1 up
+D(2) = Status bedroom 1 up percentage (%)
+D(3) = Status bedroom 1 up percantege (%) previous
+D(4) = Counter increase shutter bedroom 1 down
+D(6) = Status bedroom 1 down (%)
+D(7) = Status bedroom 1 down (%) previous
+D(8) = End result Status shutter bedroom 1
+```
+
+So this ladder logic keeps the previous status, current status & the end result.
+
+* T0 :  This is the timer which is used on the inputs. Basically when the input is on, it will start increasing the value in `D0`
+* WMOV 0, D0 : This is a moving part that puts the value 0 into the data word D0 when the input goes from ON to OFF (negative flank)
+* WINC D0, This increases a counter for shutter `UP` calculation.
+* WADDD D8, D2, D8, this adds up dataword D2 & D8 together which is saved in to D8 (percentage) when the shutter goes OFF.
+* WMOV 0, D2 : This resets the current percentage status.
+* \>, D8, 100 : This is used to avoid overflowing the percentage (Max 100% is possible)
+
+We also need the second row  to complete our calculation, this is the `DOWN` section.
+This is basically the same but for the DOWN status, although the it is possible to have a `underflow`, meaning if the dataword (which can hold 0xFFFF value), it needs to be reset back to 0%
+
+> Just to mention, this is part of the status calculation as some is also done in the basic code.
+
+
+#### Summary for ladder
+
+The ladder code contains the most important code for the shutter actuator as ladder never fails.
+> The ladder diagram gets scanned 6000 times every second for changes. So its fast also !
+
+In the application, we are also using basic interrupts. This allows the ladder code to execute basic code through INTERRUPTS which is done through `DoLadderInt` interrupt located in the basic code.  
+This is done through `F40` which can be found at the start of this ladder diagram. It gets activated when a dataword is different from 0. The interrupt will perform the rest of the calculation which is required to find the correct status of the shutters as mentioned in the status calculation section.  
+
+---
+
+There are a few files attached that contains information on which does what. Although some of it in still in dutch, it contains every single variable, constant, IO & timer that is used in this program.  
+
+* [Shutter timers](shutter-timers.info)
+* [Shutter constants](shutters-const.info)
+* [Shutter variables](shutters-variables.info)
+* [Shutter IO's](ShutterIO.inc)
 
 ## Basic software
+
+# Basic logic
+
+# Touchscreen
+
+# RS232
 
  
 
