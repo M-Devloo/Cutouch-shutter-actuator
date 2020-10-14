@@ -306,8 +306,8 @@ End
 '**************** SERIAL COMMUNICATION! ****************
 
 Sub SerialCommunication()
- Opencom 1,19200,3,80,80
- Set Rs232 1, 19200, 3
+ Opencom 1,115200,3,80,1024
+ Set Rs232 1, 115200, 3
  Putstr 1,"SHUTTER PLC ONLINE", Chr(13), Chr(10)
  SendMessage message
  On Recv1 Gosub SERIALINTERRUPT ' Data Receive Interrupt routine
