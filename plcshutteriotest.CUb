@@ -39,11 +39,9 @@ slaapkamer = "S"
 
 
 Delay 200
-
 '-------------------------------------
 #Include "PindefShutters.INC"
 '--------------------------------------
-
 SerialCommunication
 
 _D(200) = waitForEMK
@@ -57,6 +55,8 @@ Set Ladder On
 
 On Ladderint Gosub DoLadderInt
 
+drawscreen
+
 Do
 Loop
 
@@ -64,21 +64,8 @@ Loop
 '------- Ladder Interrupt by F40 -----------------------
 DoLadderInt:
 
-If _D(0) > 0 Or _D(4) > 0 Then
-_D(2) = (_D(0) * 10) / rolluikomhoogachterkamer
-_D(6) = (_D(4) * 10) / rolluikomlaagachterkamer
-Endif 
-
-If _D(10) > 0 Or _D(14) > 0 Then
-_D(12) = (_D(10) * 10) / rolluikomhoogslaapkamer
-_D(16) = (_D(14) * 10) / rolluikomlaagslaapkamer
-Endif 
-
-
-SendOutSerial achterkamer, Hex _D(2), Hex _D(6), Hex _D(8)
-'Debug "Up ", Dec _D(2), "% - ", "Down ", Dec _D(6), "% - ", "Status ", Dec _D(8), "% ", achterkamer, Cr
-SendOutSerial slaapkamer, Hex _D(12), Hex _D(16), Hex _D(18)
-'Debug "Up ", Dec _D(12), "% - ", "Down ", Dec _D(16), "% - ", "Status ", Dec _D(18), "% ", slaapkamer, Cr
+Calculation achterkamer, 0, 2, 3, 4, 6, 7, 8, rolluikomhoogachterkamer, rolluikomlaagachterkamer
+Calculation slaapkamer, 10, 12, 13, 14, 16, 17, 18, rolluikomhoogslaapkamer, rolluikomlaagslaapkamer
 
 Return
 
@@ -130,6 +117,24 @@ End Sub
 
 Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
 ' Put it on the serial port.
-'Putstr 1, shutter, down , "-", up, "-", total, Chr(13), Chr(10)
+Putstr 1, shutter, down , "-", up, "-", total, Chr(13), Chr(10)
 End Sub
 
+'**************** STATUS CALCULATION! ****************
+
+Sub Calculation(room As String, counterIncrease As Byte, statusup As Byte, previousStatusUp As Byte, counterDown As Byte, statusdown As Byte, previousStatusDown As Byte, percentageStatus As Byte, shutterUpCalibration As Integer, shutterDownCalibration As Integer)
+If _D(counterIncrease) > 0 Or _D(counterDown) > 0 Then
+_D(statusup) = (_D(counterIncrease) * 10) / shutterUpCalibration
+_D(statusdown) = (_D(counterDown) * 10) / shutterDownCalibration
+ 
+ If _D(previousStatusUp) <> _D(statusup) Or _D(previousStatusDown) <> _D(statusdown) Then
+ 	SendOutSerial room, Hex _D(statusup), Hex _D(statusdown), Hex _D(percentageStatus)
+	Debug "Up ", Dec _D(statusup), "% - ", "Down ", Dec _D(statusdown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
+ 	_D(previousStatusUp) = _D(statusup)
+ 	_D(previousStatusDown) = _D(statusdown)
+ Endif
+Endif
+End Sub
+
+
+#Include "MAINSCREENSHUTTERS.INC"

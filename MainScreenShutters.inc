@@ -1,4 +1,4 @@
-SUB FORM1()
+SUB drawscreen()
 	LINESTYLE 0
 	DOTSIZE 0,0
 	COLOR 1
