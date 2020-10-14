@@ -1,0 +1,21 @@
+T(0) = Rolluik omhoog
+T(1) = Rolluik omlaag
+T(2) = Wait for EMK (Rolluik)
+T(3) = Rolluik omlaag interrupt
+T(4) = Rolluik omhoog interrupt
+
+
+D(0) = Counter increase rolluik omhoog
+D(1) = D(0) x 10
+D(2) = Status omhoog %
+
+D(4) = Counter increase rolluik omlaag
+D(5) = D(4) x 10
+D(6) = Status omlaag %
+
+D(8) = Status Rolluik
+
+
+D(200) = WAIT 				 (CONST)
+D(201) = TIME ROLLUIK OMHOOG (CONST)
+D(202) = TIME ROLLUIK OMLAAG (CONST)
