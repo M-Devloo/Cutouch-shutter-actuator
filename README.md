@@ -33,11 +33,6 @@ The full system was powered through a 12V - 7.5A  meanwell power supply. This in
 
 _{insert_hw_schematic here}
 
-## Real life picture of the hardware
-
-_{insert_hw_real_life_pictures here}
-
-
 ### Input
 
 All inputs are described in the file: [shutterIO.inc](ShutterIO.inc)  
@@ -168,10 +163,15 @@ D(8) = End result Status shutter bedroom 1
 So this ladder logic keeps the previous status, current status & the end result.
 
 * T0 :  This is the timer which is used on the inputs. Basically when the input is on, it will start increasing the value in `D0`
+
 * WMOV 0, D0 : This is a moving part that puts the value 0 into the data word D0 when the input goes from ON to OFF (negative flank)
+
 * WINC D0, This increases a counter for shutter `UP` calculation.
+
 * WADDD D8, D2, D8, this adds up dataword D2 & D8 together which is saved in to D8 (percentage) when the shutter goes OFF.
+
 * WMOV 0, D2 : This resets the current percentage status.
+
 * \>, D8, 100 : This is used to avoid overflowing the percentage (Max 100% is possible)
 
 We also need the second row  to complete our calculation, this is the `DOWN` section.
@@ -232,10 +232,10 @@ Its a simple statemachine that is using the character `<` as a stop char. My bac
 
 Some examples:
 
-`<56<` : This open (up) the shutter in Bedroom 1.
-`<57<` : This closes (down) the shutter in Bedroom 1.
-`<1000<` : This triggers for every single shutter the "UP" merkers. This is executed in the Sub: AllUp.
-`<2000<` : This triggers for every single shutter the "DOWN" merkers. This is executed in the Sub: AllDown.
+`<56<` : This open (up) the shutter in Bedroom 1.  
+`<57<` : This closes (down) the shutter in Bedroom 1.  
+`<1000<` : This triggers for every single shutter the "UP" merkers. This is executed in the Sub: AllUp.  
+`<2000<` : This triggers for every single shutter the "DOWN" merkers. This is executed in the Sub: AllDown.  
 
 ### EVERY100ms
 This interrupt is created for the touch screen. After 20 seconds, the display turns off. 
@@ -248,6 +248,32 @@ It checks which button was pressed & depending which location on the screen, it 
 
 The calculation part is executed on the ladder interrupt (DoLadderInt). For every single percentage, it recalculates the status of the shutter.  
 This also means if ALL shutters are going down or up, your serial port gets spammed with status reports. This is done with the Sub: `SendOutSerial`
+
+---
+
+# Real life picture of the hardware
+
+Overview of the installation:
+![Overview](images/Installation_overview.JPG =100x20 =250x250)
+
+
+PLC detailed with touchscreen activated
+![Touchscreen](images/CuTouch_CT1720_touchscreen.JPG =250x250)
+
+Wires
+![Wires](images/PLC_wiring_full.JPG =250x250)
+
+The connection to the PLC
+![Back of CT1720](images/CuTouch_CT1720_back.JPG =250x250)
+
+Detailed of the wiring with the Wago's.
+![Detail Wago](images/PLC_wiring_wago.JPG =250x250)
+
+Overview of the schneider relays
+![Relays overview](images/Schneider_relays.JPG =250x250)
+
+Detailed schematic of a relay
+![Relay](images/Schneider_relay_detail.JPG =250x250)
 
 ---
 
