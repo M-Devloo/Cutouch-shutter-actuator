@@ -33,6 +33,33 @@ Dim statusofshutterupword As String
 Dim statusofshuttersdownword As String
 Dim statusofshutterstotal As String
 
+' ** EEPROM **
+Dim r As Byte 'read result
+Dim w As Byte 'write result
+w = 0
+Dim eepromAddress As Integer
+eepromAddress = &b10100000
+Dim eepromAddressRead As Integer
+eepromAddressRead = &b10100001
+
+' ** EEPROM addresses **
+
+#define startAddressUpRT 0
+#define endAddressUpRT 24
+#define startAddressDownRT 25
+#define endAddressDownRT 49
+#define startAddressTotal 50
+#define endAddressTotal 74
+
+#define wearlevel 99
+
+Dim wearleveloffset As Integer
+wearleveloffset = 0
+
+' IF THEY ARE FF -> NOT OK MOVE TO THE NEXT ONE
+
+Set I2c 9,8
+
 Dim prequal As String
 prequal = "SHUTTER"
 
@@ -110,6 +137,13 @@ Set Pad 0,4,20     ''Mode 0, Packet size 4 bytes, Buffer 20 bytes
 
 Drawscreen
 On Pad Gosub TouchScreen
+
+' Check EEPROM OFFSET
+CheckEEPROMOffSet
+
+' Read the EEPROM values to correctly initialize.
+ReadI2C startAddressUpRT
+ReadI2C startAddressUpRT +1
 
 Do
 Loop
@@ -199,6 +233,14 @@ TouchScreen:
 Set OnPad On
 Return
 
+'------- I2C Interrupt -----------------------
+ERRORPROC:
+Debug "Error i2c !"
+Dim erroreeprom As String
+erroreeprom = "I2C"
+SendOutSerial erroreeprom, 0, 0, 0
+Return
+
 '------------------ End of the program. -------------------------
 End
 
@@ -213,31 +255,33 @@ Sub SerialCommunication()
 End Sub
 
 Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
-' Put it on the serial port.
+' Put it on the serial port. 
 Putstr 1, prequal, "*", shutter, "=", up , "-", down, "-", total, Chr(13), Chr(10)
+'CheckAndWriteEEPROM Val(shutter), Val(up), Val(down), Val(total)
+
 End Sub
 
 '**************** STATUS CALCULATION! ****************
 
 Sub Calculation(room As String, counterIncrease As Byte, statusup As Byte, previousStatusUp As Byte, counterDown As Byte, statusdown As Byte, previousStatusDown As Byte, percentageStatus As Byte, shutterUpCalibration As Integer, shutterDownCalibration As Integer)
 
-If _D(previousStatusUp) > _D(statusup) Or _D(previousStatusDown) > _D(statusdown) Then
+If _D(previousStatusUp) > _D(statusUp) Or _D(previousStatusDown) > _D(statusDown) Then
 	' When status needs to be synched (when the shutter is done)
-	SendOutSerial room, Hex _D(statusup), Hex _D(statusdown), Hex _D(percentageStatus)
-	Debug "Up ", Dec _D(statusup), "% - ", "Down ", Dec _D(statusdown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
+	SendOutSerial room, Hex _D(statusUp), Hex _D(statusDown), Hex _D(percentageStatus)
+	Debug "Up ", Dec _D(statusUp), "% - ", "Down ", Dec _D(statusDown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
 	_D(previousStatusUp) = 0
 	_D(previousStatusDown) = 0
 End If
 
 If _D(counterIncrease) > 0 Or _D(counterDown) > 0 Then
-_D(statusup) = (_D(counterIncrease) * 10) / shutterUpCalibration
-_D(statusdown) = (_D(counterDown) * 10) / shutterDownCalibration
+_D(statusUp) = (_D(counterIncrease) * 10) / shutterUpCalibration
+_D(statusDown) = (_D(counterDown) * 10) / shutterDownCalibration
  
- If _D(previousStatusUp) <> _D(statusup) Or _D(previousStatusDown) <> _D(statusdown) Then
- 	SendOutSerial room, Hex _D(statusup), Hex _D(statusdown), Hex _D(percentageStatus)
-	Debug "Up ", Dec _D(statusup), "% - ", "Down ", Dec _D(statusdown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
- 	_D(previousStatusUp) = _D(statusup)
- 	_D(previousStatusDown) = _D(statusdown)
+ If _D(previousStatusUp) <> _D(statusUp) Or _D(previousStatusDown) <> _D(statusDown) Then
+ 	SendOutSerial room, Hex _D(statusUp), Hex _D(statusDown), Hex _D(percentageStatus)
+	Debug "Up ", Dec _D(statusUp), "% - ", "Down ", Dec _D(statusDown), "% - ", "Status ", Dec _D(percentageStatus), "% ", room, Cr
+ 	_D(previousStatusUp) = _D(statusUp)
+ 	_D(previousStatusDown) = _D(statusDown)
  Endif
 Endif
 
@@ -329,6 +373,60 @@ Debug "Checking touchscreen"
 	Endif 
 End Sub
 
+''**************** OFFSET TO CHECK THE WEARLEVEL OF THE EEPROM (Min 1M read cycles...)?! '****************
+Sub CheckEEPROMOffSet() 
+
+ReadI2C wearlevel
+If (w = 1) Then
+	wearleveloffset = 100 'IMPROVE STILL DOES NOT LOOP THROUGH
+End If
+
+Debug "Wear level ", Dec w
+Dim eepromwearlevel As String
+eepromwearlevel = "EEPROMWEARLEVEL"
+SendOutSerial eepromwearlevel , w, w, w
+
+End Sub
+
+''**************** WHICH ROOM FOR THE EEPROM VALUE?! '****************
+Sub CheckAndWriteEEPROM(roomValue As Byte, statusUp As Byte, statusDown As Byte, totalStatus As Byte)
+	Dim index As Byte
+	index = 255
+
+	If Val(achterkamer) = roomValue Then
+		index = 0
+	Elseif Val(slaapkamer) = roomValue Then 
+		index = 1
+	Elseif Val(keuken) = roomValue Then 
+		index = 2
+	Elseif Val(livingTuin) = roomValue Then 
+		index =  3
+	Elseif Val(livingTerras) = roomValue Then 
+		index = 4
+	Elseif Val(livingVoordeur) = roomValue Then 
+		index = 5
+	Elseif Val(garage) = roomValue Then 
+		index = 6
+	Elseif 640 = roomValue Then 
+		index = 7
+	Elseif 641 = roomValue Then 
+		index = 8
+	Elseif Val(bovenKamerWork) = roomValue Then 
+		index = 9
+	Elseif Val(bovenSlaapkamer) = roomValue Then 
+		index = 10
+	Endif 
+		
+	If index <> 255 Then
+		Debug "EEPROM Offset ", Dec wearleveloffset, "-", Dec index, Cr
+		Debug "Writing ", Hex statusUp, "-", Hex statusDown, "-", Hex totalStatus, Cr
+		WriteI2C wearleveloffset + startAddressUpRT + index, statusUp
+	   WriteI2C wearleveloffset + startAddressDownRT + index , statusDown
+		WriteI2C wearleveloffset + startAddressTotal + index, totalStatus
+	Endif
+End Sub
+
+
 ''**************** REVERSE MENU! '****************
 Sub ReverseMenu()
 If menuselected <> 0 Then
@@ -338,6 +436,38 @@ If menuselected <> 0 Then
 		End If
 		menuselectedprevious = menuselected	
 	End If	
+End Sub
+
+''**************** WRITE TO EEPROM! '****************
+Sub WriteI2C(address As Integer, writeData As Byte)
+I2cstart
+If I2cwrite(eepromAddress)= 1 Then Gosub ERRORPROC 'Chip address = A0 (A= hardcoded for the 24LC256)
+r=I2cwrite(address.byte1)' HIGH Address to write to
+r=I2cwrite(address.lowbyte)'LOW Address to write to
+r=I2cwrite(writeData)'Data to write
+I2cstop 'Stop
+
+Delay 10
+
+End Sub
+
+''**************** READ EEPROM! '****************
+Sub ReadI2C(address As Integer)
+
+' Read 1 Byte
+I2cstart
+If I2cwrite(eepromAddress) = 1 Then Gosub ERRORPROC	'Chip address = A0 (A = hardcoded for the 24LC256)
+w=I2cwrite(address.Byte1)			' HIGH Address
+w=I2cwrite(address.LowByte)		'LOW Address
+I2cstart 								'Repeated START
+w=I2cwrite(eepromAddressRead)		'Send Read command
+w=I2cread(0) 							'Store result into a
+I2cstop
+
+' Print Results
+Debug Hex w,Cr
+Delay 10
+
 End Sub
 
 #Include "MAINSCREENSHUTTERS.INC"

@@ -28,3 +28,17 @@ D(201) = TIME ROLLUIK OMHOOG ACHTERKAMER (CONST)
 D(202) = TIME ROLLUIK OMLAAG ACHTERKAMER (CONST)
 D(203) = TIME ROLLUIK OMHOOG SLAAPKAMER (CONST)
 D(204) = TIME ROLLUIK OMLAAG SLAAPKAMER (CONST)
+
+
+0 = Start address  UP STATUS RT
+24 = end address status
+
+25.. start address DOWN status RT
+49.. next end address 
+
+50.. start address TOTAL status
+74 .. next end address
+
+99... WAREOUTLEVEL
+
+
