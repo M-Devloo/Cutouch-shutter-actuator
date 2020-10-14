@@ -34,6 +34,8 @@ slaapkamer = "S"
 #define rolluikomlaagachterkamer 134
 #define rolluikomhoogslaapkamer 200
 #define rolluikomlaagslaapkamer 250
+#define laagsteInput 56
+#define hoogsteInput 59
 
 
 Delay 200
@@ -76,13 +78,41 @@ Endif
 SendOutSerial achterkamer, Hex _D(2), Hex _D(6), Hex _D(8)
 'Debug "Up ", Dec _D(2), "% - ", "Down ", Dec _D(6), "% - ", "Status ", Dec _D(8), "% ", achterkamer, Cr
 SendOutSerial slaapkamer, Hex _D(12), Hex _D(16), Hex _D(18)
-Debug "Up ", Dec _D(12), "% - ", "Down ", Dec _D(16), "% - ", "Status ", Dec _D(18), "% ", slaapkamer, Cr
+'Debug "Up ", Dec _D(12), "% - ", "Down ", Dec _D(16), "% - ", "Status ", Dec _D(18), "% ", slaapkamer, Cr
 
 Return
 
 '------- Serial Interrupt by Serial port -----------------------
 SERIALINTERRUPT:
-
+' *** Serial interrupt ***!
+Debug "Response: "
+	Do While Blen(1,0) > 0   ' While buffer is not empty then
+		' Modify here what needs to be done!!
+		stringByteTmp = Getstr(1,1000)
+		If (stringByteTmp <> "<") Then
+		StringByte = StringByte + stringByteTmp
+		Else				
+			'check to trigger the ALL UIT	of ALLES AAN.
+			If (Val(StringByte) = 1000) Then
+			Debug "All OFF"
+		 	'SwitchAllOff
+			Elseif (Val(StringByte) = 2000) Then
+			'SwitchAllOn				
+			Debug "ALL ON"				
+			Else 'Verify if its is valid.
+				For iocounter = laagsteInput To hoogsteInput
+					If Val(StringByte) = iocounter Then
+					Debug "Valid value"
+					_M(iocounter) = 1
+					End If	
+				Next		
+			End If 
+			
+		StringByte = ""
+		End If
+		Debug StringByte, " "
+   Loop
+   Debug Cr 'New Line
 Return
 
 '------------------ End of the program. -------------------------
@@ -98,12 +128,8 @@ Sub SerialCommunication()
  On Recv1 Gosub SERIALINTERRUPT ' Data Receive Interrupt routine
 End Sub
 
-Sub SendOutSerial(shutter As String, up As Byte, down As Byte, total As Byte)
-' Send out the current status through the serial port.
-' Convert first to hex string.
-
+Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
 ' Put it on the serial port.
-Putstr 1, shutter, down , "-", up, "-", total, Chr(13), Chr(10)
-
+'Putstr 1, shutter, down , "-", up, "-", total, Chr(13), Chr(10)
 End Sub
 
