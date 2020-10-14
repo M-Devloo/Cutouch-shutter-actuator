@@ -100,8 +100,8 @@ bovenSlaapkamer = "79"
 #define rolluikOmhoogLivingVoordeur 100
 #define rolluikOmlaagLivingVoordeur 100
 
-#define rolluikOmhoogGarage 100
-#define rolluikOmlaagGarage 100
+#define rolluikOmhoogGarage 160
+#define rolluikOmlaagGarage 155
 
 #define rolluikOmhoogBadkamerGroot 170
 #define rolluikOmlaagBadkamerGroot 156
