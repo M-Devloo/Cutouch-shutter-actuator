@@ -253,27 +253,27 @@ This also means if ALL shutters are going down or up, your serial port gets spam
 
 # Real life picture of the hardware
 
-Overview of the installation:
-![Overview](images/Installation_overview.JPG =100x20 =250x250)
+Overview of the installation:  
+![Overview](images/Installation_overview.resized.JPG)
 
 
-PLC detailed with touchscreen activated
-![Touchscreen](images/CuTouch_CT1720_touchscreen.JPG =250x250)
+PLC detailed with touchscreen activated  
+![Touchscreen](images/CuTouch_CT1720_touchscreen.resized.JPG)
 
-Wires
-![Wires](images/PLC_wiring_full.JPG =250x250)
+Wires  
+![Wires](images/PLC_wiring_full.resized.JPG)
 
-The connection to the PLC
-![Back of CT1720](images/CuTouch_CT1720_back.JPG =250x250)
+The connection to the PLC  
+![Back of CT1720](images/CuTouch_CT1720_back.resized.JPG)
 
-Detailed of the wiring with the Wago's.
-![Detail Wago](images/PLC_wiring_wago.JPG =250x250)
+Detailed of the wiring with the Wago's.  
+![Detail Wago](images/PLC_wiring_wago.resized.JPG)
 
-Overview of the schneider relays
-![Relays overview](images/Schneider_relays.JPG =250x250)
+Overview of the schneider relays  
+![Relays overview](images/Schneider_relays.resized.JPG)
 
-Detailed schematic of a relay
-![Relay detailed](images/Schneider_relay_detail.JPG){:height="700px" width="400px"}
+Detailed schematic of a relay  
+![Relay detailed](images/Schneider_relay_detail.resized.JPG)
 
 ---
 
