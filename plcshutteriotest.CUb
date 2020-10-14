@@ -23,11 +23,41 @@ Dim statusofshutterstotal As String
 Dim prequal As String
 prequal = "SHUTTER"
 
+'This is the room definition. Lights inpu
+'If there are more than one shutter In the room., extra index
 Dim achterkamer As String
-achterkamer = "A"
+achterkamer = "56"
 
 Dim slaapkamer As String
-slaapkamer = "S"
+slaapkamer = "57"
+
+Dim keuken As String
+keuken = "60"
+
+Dim livingTuin As String
+livingTuin = "630"
+
+Dim livingTerras As String
+livingTerras = "631"
+
+Dim livingVoordeur As String
+livingVoordeur = "632"
+
+Dim garage As String
+garage = "67"
+
+Dim badkamerGroot As String
+badkamerGroot = "690"
+
+Dim badkamerKlein As String
+badkamerKlein = "691"
+
+Dim bovenKamerWork As String
+bovenKamerWork = "75"
+
+Dim bovenSlaapkamer As String
+bovenSlaapkamer = "79"
+
 
 ' Input definition
 #define lowestInput 56
@@ -121,7 +151,7 @@ End Sub
 
 Sub SendOutSerial(shutter As String, up As String, down As String, total As String)
 ' Put it on the serial port.
-Putstr 1, prequal, "-", shutter, down , "-", up, "-", total, Chr(13), Chr(10)
+Putstr 1, prequal, "*", shutter, "=", up , "-", down, "-", total, Chr(13), Chr(10)
 End Sub
 
 '**************** STATUS CALCULATION! ****************
